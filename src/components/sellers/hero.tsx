@@ -1,149 +1,158 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ShieldCheck, CheckCircle2, ArrowRight, Store, ChevronRight, TrendingUp, AlertTriangle } from "lucide-react";
+import { TrendingUp, Check, CheckCircle2, ShieldCheck } from "lucide-react";
 
 export function SellerHero() {
   const scrollToSurvey = () => {
-    document.getElementById("survey-section")?.scrollIntoView({ behavior: "smooth" });
+    document.getElementById("survey")?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  const scrollToHowItWorks = () => {
+    document.getElementById("how-it-works")?.scrollIntoView({ behavior: "smooth" });
   };
 
   return (
-    <section className="relative overflow-hidden bg-gradient-to-b from-[#070F1A] via-[#0A2540] to-[#070F1A] text-white pt-12 pb-20 md:pt-20 md:pb-28">
-      {/* Glow Effects */}
-      <div className="pointer-events-none absolute left-1/2 top-1/4 -translate-x-1/2 h-[450px] w-[750px] rounded-full bg-[#00C896]/15 blur-3xl opacity-60" />
+    <section className="relative min-h-screen flex items-center bg-[#F8FAFC] py-12 md:py-20 overflow-hidden">
+      {/* Subtle Dot Grid Background */}
+      <div 
+        className="absolute inset-0 pointer-events-none opacity-40"
+        style={{
+          backgroundImage: `radial-gradient(#0A2540 1px, transparent 1px)`,
+          backgroundSize: '24px 24px',
+          maskImage: 'radial-gradient(ellipse 60% 50% at 50% 50%, #000 70%, transparent 100%)'
+        }}
+      />
 
-      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:items-center lg:gap-8">
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           
-          {/* Left Column */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="lg:col-span-7 space-y-6 text-center lg:text-left"
-          >
-            {/* Pill */}
-            <div className="inline-flex items-center gap-2 rounded-full border border-[#00C896]/40 bg-[#00C896]/10 px-4 py-1.5 text-xs sm:text-sm font-semibold text-[#00C896]">
-              <Store className="h-4 w-4" />
-              <span>Designed for Nigerian Instagram, WhatsApp & Online Vendors</span>
+          {/* LEFT SIDE */}
+          <div className="lg:col-span-6 flex flex-col items-start space-y-6">
+            
+            {/* Badge */}
+            <div className="inline-flex items-center gap-2 bg-[#F59E0B]/10 text-[#F59E0B] border border-[#F59E0B]/20 rounded-full px-4 py-1.5 text-sm font-semibold">
+              <TrendingUp className="h-4 w-4 shrink-0 text-[#F59E0B]" />
+              <span>Get Paid. Every Time.</span>
             </div>
 
             {/* Headline */}
-            <h1 className="text-3xl font-extrabold tracking-tight text-white sm:text-5xl lg:text-6xl leading-[1.15]">
-              Stop losing money to{" "}
-              <span className="text-[#00C896]">
-                "Pay On Delivery"
-              </span>{" "}
-              & Fake Bank Alert Scams.
+            <h1 className="text-5xl md:text-6xl font-black text-[#0A2540] leading-tight tracking-tight">
+              Sell to Anyone. <br />
+              <span className="text-[#00C896]">Get Paid</span> Without <br />
+              the Stress.
             </h1>
 
-            {/* Subtitle */}
-            <p className="text-base sm:text-lg text-slate-300 max-w-2xl mx-auto lg:mx-0 font-normal leading-relaxed">
-              Send your buyers a SafeSwap escrow payment link. Buyer deposits upfront, money is guaranteed in escrow, and you ship items with zero risk of unpaid returns.
+            {/* Subheadline */}
+            <p className="text-lg text-gray-500 max-w-lg leading-relaxed font-normal">
+              SafeSwap tells buyers their money is secured before you ship. You get paid automatically the moment they confirm delivery. Zero risk. Zero chasing.
             </p>
 
-            {/* Vendor Benefits Badges */}
-            <div className="flex flex-wrap items-center justify-center lg:justify-start gap-3 pt-2 text-xs sm:text-sm font-medium text-slate-200">
-              <div className="flex items-center gap-1.5 bg-white/10 backdrop-blur-md px-3.5 py-1.5 rounded-lg border border-white/10">
-                <CheckCircle2 className="h-4 w-4 text-[#00C896]" />
-                <span>Zero Fake Bank Alerts</span>
-              </div>
-              <div className="flex items-center gap-1.5 bg-white/10 backdrop-blur-md px-3.5 py-1.5 rounded-lg border border-white/10">
-                <TrendingUp className="h-4 w-4 text-[#00C896]" />
-                <span>+65% Higher Sales Conversion</span>
-              </div>
-              <div className="flex items-center gap-1.5 bg-white/10 backdrop-blur-md px-3.5 py-1.5 rounded-lg border border-white/10">
-                <ShieldCheck className="h-4 w-4 text-[#00C896]" />
-                <span>No Unpaid Courier Returns</span>
-              </div>
-            </div>
-
-            {/* CTAs */}
-            <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-4">
+            {/* CTA Buttons */}
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 w-full sm:w-auto pt-2">
               <button
                 onClick={scrollToSurvey}
-                className="w-full sm:w-auto flex items-center justify-center gap-2 rounded-full bg-[#00C896] px-7 py-3.5 text-base font-bold text-[#0A2540] shadow-lg shadow-[#00C896]/25 hover:bg-[#00B085] hover:shadow-xl transition-all duration-200 active:scale-95"
+                className="bg-[#0A2540] text-white rounded-full px-8 py-4 text-base font-semibold hover:bg-[#071D33] transition-all shadow-lg shadow-[#0A2540]/20 text-center active:scale-95 cursor-pointer"
               >
-                <span>Request Early Vendor Access</span>
-                <ArrowRight className="h-5 w-5" />
+                Take the Seller Survey
               </button>
 
-              <a
-                href="#benefits"
-                className="w-full sm:w-auto flex items-center justify-center gap-1.5 rounded-full bg-white/10 backdrop-blur-md px-6 py-3.5 text-base font-semibold text-white border border-white/20 hover:bg-white/20 transition-all"
+              <button
+                onClick={scrollToHowItWorks}
+                className="text-[#0A2540] font-semibold underline decoration-dotted underline-offset-4 hover:opacity-80 transition-opacity text-center py-2 cursor-pointer"
               >
-                <span>See Merchant Benefits</span>
-                <ChevronRight className="h-4 w-4 text-slate-300" />
-              </a>
+                See How It Works →
+              </button>
             </div>
-          </motion.div>
 
-          {/* Right Column: Interactive Seller Link Generator Preview */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="lg:col-span-5 relative"
-          >
-            <div className="relative mx-auto max-w-md rounded-3xl border border-white/15 bg-slate-900/90 p-6 shadow-2xl backdrop-blur-xl">
-              
-              {/* Card Title */}
-              <div className="flex items-center justify-between border-b border-slate-800 pb-4">
-                <div className="flex items-center gap-2.5">
-                  <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#00C896] text-[#0A2540] font-bold">
-                    SS
-                  </div>
-                  <div>
-                    <p className="text-xs text-slate-400 font-medium">SafeSwap Vendor Hub</p>
-                    <p className="text-sm font-bold text-white">Create Order Link</p>
-                  </div>
-                </div>
-                <span className="rounded-full bg-[#00C896]/20 px-3 py-1 text-xs font-semibold text-[#00C896]">
-                  Verified Seller ✅
+            {/* Trust Badges */}
+            <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-6 pt-4 text-xs text-gray-500 font-medium">
+              <div className="flex items-center gap-1.5">
+                <Check className="h-4 w-4 text-[#00C896]" />
+                <span>Get paid on delivery confirmation</span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <Check className="h-4 w-4 text-[#00C896]" />
+                <span>No more payment disputes</span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <Check className="h-4 w-4 text-[#00C896]" />
+                <span>Sell to buyers who trust you</span>
+              </div>
+            </div>
+
+          </div>
+
+          {/* RIGHT SIDE: Mockup Cards */}
+          <div className="lg:col-span-6 relative flex justify-center items-center py-8 lg:py-0">
+            
+            {/* Card 1 (Main Card) */}
+            <motion.div
+              animate={{ y: [0, -10, 0] }}
+              transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}
+              className="bg-white rounded-3xl p-6 md:p-8 shadow-xl border border-gray-100 w-full max-w-md relative z-10"
+            >
+              <div className="flex items-center justify-between border-b border-gray-100 pb-4 mb-5">
+                <span className="text-sm font-bold text-[#0A2540]">Your Sales Dashboard</span>
+                <span className="bg-[#00C896]/10 text-[#00C896] text-xs font-semibold px-2.5 py-1 rounded-full flex items-center gap-1">
+                  Active Vendor
                 </span>
               </div>
 
-              {/* Form Graphic inside preview */}
-              <div className="py-4 space-y-3.5 text-left text-xs">
-                <div>
-                  <label className="text-slate-400 font-medium block mb-1">Product Name</label>
-                  <div className="w-full rounded-xl bg-slate-800/90 border border-slate-700 p-2.5 text-slate-200 font-medium">
-                    Human Hair Lace Frontal Wigs (24 inches)
+              <div className="space-y-4">
+                <div className="bg-[#F8FAFC] rounded-2xl p-4 border border-gray-100">
+                  <span className="text-xs text-gray-400 font-medium block mb-1">Today's Earnings</span>
+                  <span className="text-3xl font-black text-[#0A2540]">₦127,500</span>
+                </div>
+
+                <div className="grid grid-cols-2 gap-3 text-sm">
+                  <div className="bg-[#F8FAFC] rounded-xl p-3 border border-gray-100">
+                    <span className="text-xs text-gray-400 block">Pending release</span>
+                    <span className="font-bold text-[#F59E0B]">₦43,000</span>
+                  </div>
+                  <div className="bg-[#F8FAFC] rounded-xl p-3 border border-gray-100">
+                    <span className="text-xs text-gray-400 block">Completed</span>
+                    <span className="font-bold text-[#0A2540]">8 sales</span>
                   </div>
                 </div>
 
-                <div className="grid grid-cols-2 gap-3">
-                  <div>
-                    <label className="text-slate-400 font-medium block mb-1">Order Amount</label>
-                    <div className="w-full rounded-xl bg-slate-800/90 border border-slate-700 p-2.5 text-[#00C896] font-bold">
-                      ₦135,000.00
-                    </div>
-                  </div>
-                  <div>
-                    <label className="text-slate-400 font-medium block mb-1">Delivery City</label>
-                    <div className="w-full rounded-xl bg-slate-800/90 border border-slate-700 p-2.5 text-slate-200 font-medium">
-                      Abuja, FCT
-                    </div>
-                  </div>
-                </div>
-
-                {/* Generated Link Box */}
-                <div className="rounded-xl bg-emerald-950/60 border border-[#00C896]/40 p-3 space-y-1.5">
-                  <p className="text-[11px] text-[#00C896] font-bold">Generated Escrow Link for Customer:</p>
-                  <p className="text-xs text-white font-mono truncate select-all">
-                    safeswap.ng/pay/vendor-glam/hair-wig-884
-                  </p>
-                </div>
-
-                <div className="flex items-center gap-2 text-[11px] text-slate-400 pt-1">
-                  <ShieldCheck className="h-4 w-4 text-[#00C896]" />
-                  <span>Buyer deposits ₦135k into escrow before you hand item to dispatch rider.</span>
+                <div className="flex items-center gap-2 pt-2 text-xs font-semibold text-[#00C896]">
+                  <CheckCircle2 className="h-4 w-4" />
+                  <span>Payment secured by SafeSwap ✓</span>
                 </div>
               </div>
+            </motion.div>
 
-            </div>
-          </motion.div>
+            {/* Card 2 (Floating Top Right - Gold Accent) */}
+            <motion.div
+              animate={{ y: [0, -12, 0] }}
+              transition={{ repeat: Infinity, duration: 3.5, ease: "easeInOut", delay: 0.5 }}
+              className="bg-[#F59E0B] text-white rounded-2xl p-4 shadow-lg absolute -top-4 -right-2 sm:right-4 z-20 flex items-center gap-3 max-w-[240px]"
+            >
+              <div className="bg-white/20 p-2 rounded-xl shrink-0">
+                <span className="text-lg">💰</span>
+              </div>
+              <div>
+                <p className="text-sm font-extrabold leading-tight">₦43,000 being released now</p>
+                <p className="text-[11px] text-white/90 font-medium mt-0.5">Buyer confirmed delivery ✅</p>
+              </div>
+            </motion.div>
+
+            {/* Card 3 (Floating Bottom Left - Emerald Accent) */}
+            <motion.div
+              animate={{ y: [0, -8, 0] }}
+              transition={{ repeat: Infinity, duration: 2.8, ease: "easeInOut", delay: 0.2 }}
+              className="bg-[#00C896] text-white rounded-2xl p-4 shadow-lg absolute -bottom-6 -left-2 sm:left-4 z-20 flex items-center gap-3 max-w-[260px]"
+            >
+              <div className="bg-white/20 p-2 rounded-xl shrink-0">
+                <ShieldCheck className="h-5 w-5 text-white" />
+              </div>
+              <p className="text-xs font-semibold leading-snug">
+                Ship with confidence — payment already secured
+              </p>
+            </motion.div>
+
+          </div>
 
         </div>
       </div>

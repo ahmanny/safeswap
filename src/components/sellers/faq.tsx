@@ -1,70 +1,67 @@
 "use client";
 
 import { useState } from "react";
-import { ChevronDown, HelpCircle } from "lucide-react";
+import { Plus, Minus } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export function SellerFAQ() {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
-  const faqs = [
-    {
-      q: "What does SafeSwap cost vendors?",
-      a: "SafeSwap charges a tiny transaction fee (1.5% capped at ₦2,000) only when a sale is successfully completed. Creating payment links and listing items is 100% free.",
-    },
+  const questions = [
     {
       q: "How quickly do I get paid after delivery?",
-      a: "As soon as the buyer confirms package inspection on their phone, funds are instantly released and transferred straight into your registered Nigerian bank account in under 5 seconds.",
+      a: "Payment is released to your account within minutes of the buyer confirming delivery.",
     },
     {
-      q: "What if the buyer receives the package but forgets to click 'Confirm'?",
-      a: "SafeSwap features an Automated Auto-Release timer. Once courier delivery status is logged, if the buyer doesn't raise a dispute within 24 hours, funds are automatically released to your bank account.",
+      q: "What if the buyer never confirms delivery?",
+      a: "If the buyer doesn't confirm or reject within the agreed timeframe, payment is automatically released to you.",
     },
     {
-      q: "How do I send a SafeSwap payment link to my Instagram or WhatsApp customers?",
-      a: "You can generate a link in 10 seconds via our Web Dashboard or WhatsApp Bot by entering product title and price. Copy the link and send it directly in DM or paste in your bio.",
+      q: "What if a buyer makes a false dispute?",
+      a: "Our team reviews evidence from both sides fairly. We protect sellers from fraudulent claims with our dispute process.",
     },
     {
-      q: "Which Nigerian banks are supported for seller payouts?",
-      a: "All licensed commercial banks (GTBank, Zenith, Access, First Bank, UBA, Stanbic, etc.) and licensed digital banks (Kuda, Moniepoint, OPay, Palmpay) are fully supported with instant NIBSS settlement.",
+      q: "Do I need a special bank account?",
+      a: "No. Payouts go straight to your regular Nigerian bank account.",
+    },
+    {
+      q: "Can I use SafeSwap on Instagram/WhatsApp?",
+      a: "Yes. Share your SafeSwap payment link anywhere — DMs, status, or chat.",
     },
   ];
 
   return (
-    <section id="faq" className="py-20 bg-[#F8FAFC] border-t border-slate-200/80">
-      <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
+    <section id="faq" className="bg-white py-20 md:py-28 border-b border-gray-100">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        <div className="text-center space-y-4 mb-14">
-          <div className="inline-flex items-center gap-2 rounded-full bg-[#0A2540]/5 px-4 py-1.5 text-xs font-semibold text-[#0A2540]">
-            <HelpCircle className="h-4 w-4 text-[#00C896]" />
-            <span>Merchant Questions</span>
-          </div>
-          <h2 className="text-3xl font-extrabold tracking-tight text-[#0A2540] sm:text-4xl">
-            Frequently Asked Questions for Vendors
+        {/* Header */}
+        <div className="text-center space-y-3 mb-14">
+          <h2 className="text-3xl md:text-4xl font-extrabold text-[#0A2540] tracking-tight">
+            Frequently Asked Questions
           </h2>
-          <p className="text-slate-600 text-base">
-            Everything you need to know about accepting escrow payments with SafeSwap.
+          <p className="text-gray-500 text-lg">
+            Got questions about selling on SafeSwap? We've got answers.
           </p>
         </div>
 
-        <div className="space-y-4">
-          {faqs.map((faq, idx) => {
+        {/* Accordion List */}
+        <div className="divide-y divide-gray-200 border-t border-b border-gray-200">
+          {questions.map((item, idx) => {
             const isOpen = openIndex === idx;
             return (
-              <div
-                key={faq.q}
-                className="rounded-2xl border border-slate-200 bg-white overflow-hidden transition-all duration-200 shadow-xs"
-              >
+              <div key={item.q} className="py-5 transition-colors">
                 <button
                   onClick={() => setOpenIndex(isOpen ? null : idx)}
-                  className="flex w-full items-center justify-between p-6 text-left font-bold text-[#0A2540] hover:text-[#00C896] transition-colors"
+                  className="flex w-full items-center justify-between text-left font-bold text-[#0A2540] text-lg hover:text-[#00C896] transition-colors cursor-pointer py-1"
                 >
-                  <span className="text-base sm:text-lg pr-4">{faq.q}</span>
-                  <ChevronDown
-                    className={`h-5 w-5 shrink-0 text-slate-400 transition-transform duration-300 ${
-                      isOpen ? "rotate-180 text-[#00C896]" : ""
-                    }`}
-                  />
+                  <span className="pr-4">{item.q}</span>
+                  <div className="shrink-0 text-[#0A2540]">
+                    {isOpen ? (
+                      <Minus className="h-5 w-5 text-[#00C896]" />
+                    ) : (
+                      <Plus className="h-5 w-5" />
+                    )}
+                  </div>
                 </button>
 
                 <AnimatePresence>
@@ -73,12 +70,12 @@ export function SellerFAQ() {
                       initial={{ height: 0, opacity: 0 }}
                       animate={{ height: "auto", opacity: 1 }}
                       exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.3 }}
+                      transition={{ duration: 0.25, ease: "easeInOut" }}
                       className="overflow-hidden"
                     >
-                      <div className="px-6 pb-6 pt-0 text-slate-600 text-sm leading-relaxed border-t border-slate-100 pt-4">
-                        {faq.a}
-                      </div>
+                      <p className="pt-3 pb-2 text-gray-600 text-base leading-relaxed">
+                        {item.a}
+                      </p>
                     </motion.div>
                   )}
                 </AnimatePresence>

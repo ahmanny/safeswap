@@ -1,105 +1,88 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { XCircle, CheckCircle2, TrendingUp, ShieldCheck, Zap } from "lucide-react";
 
 export function SellerBenefits() {
-  const comparisons = [
+  const benefits = [
     {
-      issue: "Fake Bank Alerts & SMS Scams",
-      oldWay: "Loss of expensive goods to fake transfer receipts or SMS alerts.",
-      safeSwap: "100% direct bank verification via SafeSwap webhooks before dispatch.",
+      emoji: "💰",
+      title: "Guaranteed Payment",
+      description:
+        "Never ship and not get paid again. Funds are locked before you send anything.",
     },
     {
-      issue: "Pay On Delivery (POD) Losses",
-      oldWay: "Riders return items because buyer changed their mind or didn't answer calls.",
-      safeSwap: "Buyers deposit 100% upfront into escrow. No more wasted courier fees.",
+      emoji: "🌍",
+      title: "Sell to Anyone",
+      description:
+        "Reach buyers who were too scared to order from unknown sellers. SafeSwap builds instant trust.",
     },
     {
-      issue: "Low Conversion from Skeptical Buyers",
-      oldWay: "First-time buyers hesitate to send ₦50k+ to an unknown Instagram account.",
-      safeSwap: "SafeSwap trust badge gives buyers 100% confidence to pay instantly.",
+      emoji: "📈",
+      title: "Grow Your Business",
+      description:
+        "More trust = more sales. Sellers on SafeSwap report 40% more completed transactions.",
     },
     {
-      issue: "Dispute & Fraud Resolution",
-      oldWay: "Buyers post false reviews online claiming wrong item was delivered.",
-      safeSwap: "SafeSwap requires packaging video proof from both parties before resolving.",
+      emoji: "⚡",
+      title: "Fast Payouts",
+      description:
+        "Get paid the moment your buyer confirms. Straight to your bank account.",
+    },
+    {
+      emoji: "🤝",
+      title: "Protected from False Disputes",
+      description:
+        "Our fair dispute process protects sellers from fraudulent buyer claims.",
+    },
+    {
+      emoji: "📊",
+      title: "Sales Dashboard",
+      description:
+        "Track all your transactions, pending payments, and completed sales in one place.",
     },
   ];
 
   return (
-    <section id="benefits" className="py-20 bg-white border-t border-slate-100">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <section id="benefits" className="bg-[#0A2540] text-white py-20 md:py-28">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto space-y-4 mb-16">
-          <div className="inline-flex items-center gap-2 rounded-full bg-[#00C896]/15 px-4 py-1.5 text-xs font-semibold text-[#0A2540]">
-            <TrendingUp className="h-4 w-4 text-[#00C896]" />
-            <span>Why Vendors Switch To SafeSwap</span>
-          </div>
-          <h2 className="text-3xl font-extrabold tracking-tight text-[#0A2540] sm:text-4xl">
-            The Old Way vs The SafeSwap Way
+        {/* Header */}
+        <div className="text-center max-w-3xl mx-auto space-y-3 mb-16">
+          <h2 className="text-3xl md:text-4xl font-extrabold text-white tracking-tight">
+            Why Sellers Love SafeSwap
           </h2>
-          <p className="text-slate-600 text-base sm:text-lg">
-            See how switching to SafeSwap escrow protects your business revenue and skyrockets your sales conversion.
+          <p className="text-lg text-white/60 font-normal">
+            Empowering vendors to close more sales and build a scam-free reputation
           </p>
         </div>
 
-        {/* Comparison Grid */}
-        <div className="space-y-6 max-w-5xl mx-auto">
-          {comparisons.map((item, idx) => (
+        {/* 3x2 Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+          {benefits.map((item, index) => (
             <motion.div
-              key={item.issue}
-              initial={{ opacity: 0, y: 15 }}
+              key={item.title}
+              initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: idx * 0.1 }}
-              className="rounded-2xl border border-slate-200 overflow-hidden bg-[#F8FAFC] shadow-xs"
+              transition={{ duration: 0.4, delay: index * 0.08 }}
+              className="bg-white/5 border border-white/10 rounded-2xl p-6 md:p-8 hover:bg-white/10 hover:border-[#F59E0B]/40 transition-all duration-200 group"
             >
-              <div className="bg-[#0A2540] px-6 py-3 text-white text-sm font-bold flex items-center justify-between">
-                <span>{item.issue}</span>
-                <span className="text-xs text-[#00C896] font-semibold">Vendor Comparison</span>
+              {/* Icon Circle */}
+              <div className="w-12 h-12 rounded-full bg-[#F59E0B]/20 text-[#F59E0B] flex items-center justify-center text-xl mb-5 group-hover:scale-110 transition-transform">
+                {item.emoji}
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-slate-200 p-6 gap-6 md:gap-0">
-                {/* Old Way */}
-                <div className="space-y-2 md:pr-6">
-                  <div className="flex items-center gap-2 text-red-600 text-xs font-bold uppercase tracking-wider">
-                    <XCircle className="h-4 w-4" />
-                    <span>Traditional POD / Direct Bank Transfer</span>
-                  </div>
-                  <p className="text-slate-600 text-sm leading-relaxed">
-                    {item.oldWay}
-                  </p>
-                </div>
+              {/* Title */}
+              <h3 className="text-xl font-bold text-white mb-3">
+                {item.title}
+              </h3>
 
-                {/* SafeSwap Way */}
-                <div className="space-y-2 md:pl-6 pt-4 md:pt-0">
-                  <div className="flex items-center gap-2 text-[#00C896] text-xs font-bold uppercase tracking-wider">
-                    <CheckCircle2 className="h-4 w-4" />
-                    <span>SafeSwap Escrow Link</span>
-                  </div>
-                  <p className="text-slate-900 font-medium text-sm leading-relaxed">
-                    {item.safeSwap}
-                  </p>
-                </div>
-              </div>
+              {/* Description */}
+              <p className="text-white/70 text-sm leading-relaxed font-normal">
+                {item.description}
+              </p>
             </motion.div>
           ))}
-        </div>
-
-        {/* Highlight Callout */}
-        <div className="mt-14 max-w-3xl mx-auto text-center rounded-3xl bg-gradient-to-r from-[#0A2540] to-[#070F1A] p-8 text-white shadow-xl">
-          <div className="flex items-center justify-center gap-2 text-[#00C896] font-bold text-sm mb-2">
-            <Zap className="h-5 w-5" />
-            <span>Instant Merchant Onboarding</span>
-          </div>
-          <h3 className="text-xl sm:text-2xl font-bold mb-3">
-            Boost your Instagram & WhatsApp sales by 3x
-          </h3>
-          <p className="text-slate-300 text-sm max-w-xl mx-auto leading-relaxed">
-            Give your shoppers the confidence to pay without hesitation. Join our merchant early access list below.
-          </p>
         </div>
 
       </div>
