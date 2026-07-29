@@ -1,95 +1,90 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { CreditCard, PackageCheck, Banknote, ShieldCheck } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
 export function BuyerHowItWorks() {
   const steps = [
     {
-      number: "01",
-      title: "Deposit into SafeSwap Vault",
-      description: "When ordering from a vendor, send payment safely into your SafeSwap escrow link. The seller sees that payment is secured.",
-      icon: CreditCard,
-      badge: "Money Locked 🔐",
+      number: "1",
+      emoji: "💸",
+      title: "Send Payment to SafeSwap",
+      description:
+        "Instead of paying the seller directly, send your money to SafeSwap. We hold it safely until you're happy.",
     },
     {
-      number: "02",
-      title: "Receive & Inspect Package",
-      description: "The vendor ships your item. Once it arrives, open the package and inspect it to ensure it matches what you ordered.",
-      icon: PackageCheck,
-      badge: "Inspection Period 📦",
+      number: "2",
+      emoji: "📦",
+      title: "Seller Ships Your Order",
+      description:
+        "The seller can see your payment is secured and ready for release. They ship your item with confidence.",
     },
     {
-      number: "03",
-      title: "Release Payment to Vendor",
-      description: "Satisfied with your purchase? Click 'Release Payment' on your phone. If it's defective or wrong, open a 1-click refund dispute.",
-      icon: Banknote,
-      badge: "Instant Release ⚡",
+      number: "3",
+      emoji: "✅",
+      title: "Confirm and Release",
+      description:
+        "Received your item? Confirm on the app and we instantly release the payment to the seller. Not satisfied? Open a dispute.",
     },
   ];
 
   return (
-    <section id="how-it-works" className="py-20 bg-white border-y border-slate-100">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <section id="how-it-works" className="bg-white py-20 md:py-28 border-b border-gray-100">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto space-y-4">
-          <div className="inline-flex items-center gap-2 rounded-full bg-[#0A2540]/5 px-4 py-1.5 text-xs font-semibold text-[#0A2540]">
-            <ShieldCheck className="h-4 w-4 text-[#00C896]" />
-            <span>Simple 3-Step Protection</span>
-          </div>
-          <h2 className="text-3xl font-extrabold tracking-tight text-[#0A2540] sm:text-4xl">
-            How SafeSwap Protects Your Money
+        {/* Header */}
+        <div className="text-center max-w-3xl mx-auto space-y-3 mb-16">
+          <h2 className="text-3xl md:text-4xl font-extrabold text-[#0A2540] tracking-tight">
+            How SafeSwap Protects You
           </h2>
-          <p className="text-slate-600 text-base sm:text-lg">
-            No more anxiety after making bank transfers to unknown sellers. Here is how your shopping experience changes forever.
+          <p className="text-lg text-gray-500 font-normal">
+            Three simple steps between you and a safe purchase
           </p>
         </div>
 
-        {/* Steps Grid */}
-        <div className="mt-16 grid grid-cols-1 gap-8 md:grid-cols-3">
-          {steps.map((step, idx) => {
-            const IconComponent = step.icon;
-            return (
+        {/* 3 Step Cards Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
+          {steps.map((step, index) => (
+            <div key={step.number} className="relative flex flex-col">
+              
+              {/* Step Card */}
               <motion.div
-                key={step.number}
-                initial={{ opacity: 0, y: 25 }}
+                initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: idx * 0.15 }}
-                className="relative flex flex-col justify-between rounded-3xl border border-slate-200/80 bg-[#F8FAFC] p-8 shadow-xs hover:border-[#00C896]/40 hover:shadow-md transition-all duration-300 group"
+                transition={{ duration: 0.5, delay: index * 0.15 }}
+                className="bg-[#F8FAFC] rounded-2xl p-6 md:p-8 relative overflow-hidden flex-1 border border-gray-100 shadow-xs hover:shadow-md transition-shadow"
               >
-                <div>
-                  {/* Step Header */}
-                  <div className="flex items-center justify-between pb-6">
-                    <span className="text-3xl font-black text-slate-300 group-hover:text-[#00C896] transition-colors">
-                      {step.number}
-                    </span>
-                    <span className="rounded-full bg-white px-3 py-1 text-xs font-semibold text-[#0A2540] border border-slate-200 shadow-2xs">
-                      {step.badge}
-                    </span>
-                  </div>
+                {/* Large step number in background top right */}
+                <span className="text-8xl font-black text-[#00C896]/20 absolute top-4 right-4 pointer-events-none select-none leading-none">
+                  {step.number}
+                </span>
 
-                  {/* Icon */}
-                  <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-[#0A2540] text-[#00C896] shadow-md group-hover:scale-105 transition-transform">
-                    <IconComponent className="h-7 w-7" />
-                  </div>
-
-                  {/* Title & Description */}
-                  <h3 className="text-xl font-bold text-[#0A2540] mb-3">
-                    {step.title}
-                  </h3>
-                  <p className="text-slate-600 text-sm leading-relaxed">
-                    {step.description}
-                  </p>
+                {/* Icon Circle */}
+                <div className="bg-[#0A2540]/10 w-14 h-14 rounded-full flex items-center justify-center text-2xl mb-6 relative z-10">
+                  {step.emoji}
                 </div>
 
-                <div className="mt-6 pt-4 border-t border-slate-200/60 flex items-center gap-2 text-xs font-semibold text-[#00C896]">
-                  <span>SafeSwap Guaranteed</span>
-                </div>
+                {/* Title */}
+                <h3 className="font-bold text-[#0A2540] text-xl mb-3 relative z-10">
+                  {step.title}
+                </h3>
+
+                {/* Description */}
+                <p className="text-gray-500 text-sm leading-relaxed relative z-10">
+                  {step.description}
+                </p>
               </motion.div>
-            );
-          })}
+
+              {/* Desktop Arrow Connector between cards */}
+              {index < steps.length - 1 && (
+                <div className="hidden md:flex absolute top-1/2 -right-4 -translate-y-1/2 z-20 bg-white p-1.5 rounded-full border border-gray-200 shadow-xs text-gray-400">
+                  <ArrowRight className="h-5 w-5" />
+                </div>
+              )}
+
+            </div>
+          ))}
         </div>
 
       </div>

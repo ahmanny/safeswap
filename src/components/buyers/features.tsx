@@ -1,82 +1,88 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ShieldCheck, Zap, BellRing, UserCheck, Clock, RefreshCw } from "lucide-react";
 
 export function BuyerFeatures() {
   const features = [
     {
-      icon: ShieldCheck,
-      title: "100% Refund Protection",
-      description: "If the seller sends a wrong, damaged, or fake product, your money is returned straight to your bank account with zero hassle.",
+      emoji: "🛡️",
+      title: "Money-Back Guarantee",
+      description:
+        "If your item never arrives or isn't as described, you get a full refund. No arguments.",
     },
     {
-      icon: Clock,
-      title: "Custom Inspection Window",
-      description: "Take up to 24 hours after delivery to test gadget batteries, try on clothes, or verify items before confirming funds release.",
+      emoji: "⚡",
+      title: "Instant Release",
+      description:
+        "Confirm delivery on the app and payment reaches the seller in seconds.",
     },
     {
-      icon: Zap,
-      title: "Instant Vendor Payouts",
-      description: "The moment you click approve, funds hit the vendor's bank account in under 3 seconds so nobody is kept waiting.",
+      emoji: "🤝",
+      title: "Dispute Resolution",
+      description:
+        "Our team mediates any disagreements fairly and transparently.",
     },
     {
-      icon: BellRing,
-      title: "Real-Time WhatsApp Alerts",
-      description: "Get instant WhatsApp notifications when funds are locked, when the courier picks up, and when delivery is imminent.",
+      emoji: "📱",
+      title: "Works on Any Device",
+      description:
+        "Use SafeSwap from your phone, tablet, or computer. No app download needed.",
     },
     {
-      icon: UserCheck,
-      title: "Verified Vendor Ratings",
-      description: "Check the vendor's SafeSwap completion rate, average dispatch speed, and buyer reviews before placing any order.",
+      emoji: "🏦",
+      title: "Multiple Payment Methods",
+      description:
+        "Pay via bank transfer, USSD, card, or any Nigerian payment method.",
     },
     {
-      icon: RefreshCw,
-      title: "Swift Dispute Resolution",
-      description: "If a dispute arises, our local support team reviews video proof or rider receipts and resolves issues within 4 hours.",
+      emoji: "👁️",
+      title: "Full Transparency",
+      description:
+        "Track every step of your transaction in real time.",
     },
   ];
 
   return (
-    <section id="features" className="py-20 bg-[#F8FAFC]">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <section id="features" className="bg-[#0A2540] text-white py-20 md:py-28">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        <div className="text-center max-w-3xl mx-auto space-y-4">
-          <span className="rounded-full bg-[#00C896]/15 px-4 py-1.5 text-xs font-semibold text-[#0A2540]">
-            Built for peace of mind
-          </span>
-          <h2 className="text-3xl font-extrabold tracking-tight text-[#0A2540] sm:text-4xl">
-            Why Nigerian Shoppers Love SafeSwap
+        {/* Header */}
+        <div className="text-center max-w-3xl mx-auto space-y-3 mb-16">
+          <h2 className="text-3xl md:text-4xl font-extrabold text-white tracking-tight">
+            Everything You Need to Buy Safely
           </h2>
-          <p className="text-slate-600 text-base sm:text-lg">
-            Say goodbye to fake vendors, ghosting after payment, and endless pay-on-delivery arguments.
+          <p className="text-lg text-white/60 font-normal">
+            Designed to protect your hard-earned money at every step
           </p>
         </div>
 
-        <div className="mt-16 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-          {features.map((feat, idx) => {
-            const Icon = feat.icon;
-            return (
-              <motion.div
-                key={feat.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: idx * 0.1 }}
-                className="rounded-2xl border border-slate-200/80 bg-white p-7 shadow-xs hover:shadow-md hover:border-[#00C896]/50 transition-all group"
-              >
-                <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-xl bg-[#00C896]/10 text-[#00C896] group-hover:bg-[#00C896] group-hover:text-white transition-colors">
-                  <Icon className="h-6 w-6" />
-                </div>
-                <h3 className="text-lg font-bold text-[#0A2540] mb-2">
-                  {feat.title}
-                </h3>
-                <p className="text-slate-600 text-sm leading-relaxed">
-                  {feat.description}
-                </p>
-              </motion.div>
-            );
-          })}
+        {/* 3x2 Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+          {features.map((feat, index) => (
+            <motion.div
+              key={feat.title}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4, delay: index * 0.08 }}
+              className="bg-white/5 border border-white/10 rounded-2xl p-6 md:p-8 hover:bg-white/10 hover:border-[#00C896]/30 transition-all duration-200 group"
+            >
+              {/* Icon in bg-[#00C896]/20 circle text-[#00C896] */}
+              <div className="w-12 h-12 rounded-full bg-[#00C896]/20 text-[#00C896] flex items-center justify-center text-xl mb-5 group-hover:scale-110 transition-transform">
+                {feat.emoji}
+              </div>
+
+              {/* Title */}
+              <h3 className="text-xl font-bold text-white mb-3">
+                {feat.title}
+              </h3>
+
+              {/* Description */}
+              <p className="text-white/70 text-sm leading-relaxed font-normal">
+                {feat.description}
+              </p>
+            </motion.div>
+          ))}
         </div>
 
       </div>

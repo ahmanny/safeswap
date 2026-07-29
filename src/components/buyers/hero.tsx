@@ -1,148 +1,172 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ShieldCheck, CheckCircle2, Lock, ArrowRight, Smartphone, ChevronRight } from "lucide-react";
+import { Shield, Lock, Check, TrendingUp, CheckCircle2 } from "lucide-react";
 
 export function BuyerHero() {
   const scrollToSurvey = () => {
-    document.getElementById("survey-section")?.scrollIntoView({ behavior: "smooth" });
+    document.getElementById("survey")?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  const scrollToHowItWorks = () => {
+    document.getElementById("how-it-works")?.scrollIntoView({ behavior: "smooth" });
   };
 
   return (
-    <section className="relative overflow-hidden bg-gradient-to-b from-[#F8FAFC] via-emerald-50/20 to-[#F8FAFC] pt-12 pb-20 md:pt-20 md:pb-28">
-      {/* Background Glow Accents */}
-      <div className="pointer-events-none absolute left-1/2 top-0 -translate-x-1/2 h-[450px] w-[800px] rounded-full bg-gradient-to-tr from-[#00C896]/10 to-[#0A2540]/5 blur-3xl opacity-70" />
+    <section className="relative min-h-screen flex items-center bg-[#F8FAFC] py-12 md:py-20 overflow-hidden">
+      {/* Subtle Dot Grid Background */}
+      <div 
+        className="absolute inset-0 pointer-events-none opacity-40"
+        style={{
+          backgroundImage: `radial-[#0A2540] 1px, transparent 1px)`,
+          backgroundSize: '24px 24px',
+          maskImage: 'radial-gradient(ellipse 60% 50% at 50% 50%, #000 70%, transparent 100%)'
+        }}
+      />
 
-      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:items-center lg:gap-8">
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           
-          {/* Left Column: Copy & CTAs */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="lg:col-span-7 space-y-6 text-center lg:text-left"
-          >
-            {/* Pill Badge */}
-            <div className="inline-flex items-center gap-2 rounded-full border border-[#00C896]/30 bg-[#00C896]/10 px-4 py-1.5 text-xs sm:text-sm font-semibold text-[#0A2540]">
-              <span className="flex h-2 w-2 rounded-full bg-[#00C896] animate-pulse" />
-              <span>Zero-Risk Online Shopping for Nigerians</span>
+          {/* LEFT SIDE */}
+          <div className="lg:col-span-6 flex flex-col items-start space-y-6">
+            
+            {/* Small Pill Badge */}
+            <div className="inline-flex items-center gap-2 bg-[#00C896]/10 text-[#00C896] border border-[#00C896]/20 rounded-full px-4 py-1.5 text-sm font-semibold">
+              <Shield className="h-4 w-4 shrink-0" />
+              <span>100% Secure Escrow Payments</span>
             </div>
 
-            {/* Main Headline */}
-            <h1 className="text-3xl font-extrabold tracking-tight text-[#0A2540] sm:text-5xl lg:text-6xl leading-[1.15]">
-              Never lose money to{" "}
-              <span className="relative inline-block text-transparent bg-clip-text bg-gradient-to-r from-[#00C896] to-[#0A2540]">
-                "What I Ordered vs What I Got"
-              </span>{" "}
-              again.
+            {/* Headline */}
+            <h1 className="text-5xl md:text-6xl font-black text-[#0A2540] leading-tight tracking-tight">
+              Buy Anything Online <br className="hidden sm:inline" />
+              Without the Fear of <br />
+              <span className="relative inline-block">
+                Getting Scammed
+                {/* Green wavy underline SVG decoration */}
+                <svg
+                  className="absolute left-0 -bottom-2 w-full h-3 text-[#00C896]"
+                  viewBox="0 0 250 20"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  preserveAspectRatio="none"
+                >
+                  <path
+                    d="M3 14C50 4 100 22 150 8C185 -1 215 16 247 10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                    strokeLinecap="round"
+                  />
+                </svg>
+              </span>
             </h1>
 
-            {/* Subheading */}
-            <p className="text-base sm:text-lg text-slate-600 max-w-2xl mx-auto lg:mx-0 font-normal leading-relaxed">
-              SafeSwap holds your payment safely in escrow. The Instagram or WhatsApp vendor only gets paid <span className="font-semibold text-[#0A2540]">after you inspect and confirm</span> delivery.
+            {/* Subheadline */}
+            <p className="text-lg text-gray-500 max-w-lg leading-relaxed font-normal">
+              SafeSwap holds your money safely until you confirm you've received exactly what you ordered. No delivery? Get your money back.
             </p>
 
-            {/* Trust Badges List */}
-            <div className="flex flex-wrap items-center justify-center lg:justify-start gap-4 pt-2 text-xs sm:text-sm font-medium text-slate-700">
-              <div className="flex items-center gap-1.5 bg-white px-3 py-1.5 rounded-lg border border-slate-200 shadow-xs">
-                <CheckCircle2 className="h-4 w-4 text-[#00C896]" />
-                <span>100% Money-Back Refund</span>
-              </div>
-              <div className="flex items-center gap-1.5 bg-white px-3 py-1.5 rounded-lg border border-slate-200 shadow-xs">
-                <Lock className="h-4 w-4 text-[#0A2540]" />
-                <span>Bank-Level Security</span>
-              </div>
-              <div className="flex items-center gap-1.5 bg-white px-3 py-1.5 rounded-lg border border-slate-200 shadow-xs">
-                <ShieldCheck className="h-4 w-4 text-[#00C896]" />
-                <span>No Pay On Delivery Hassles</span>
-              </div>
-            </div>
-
-            {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-4">
+            {/* Two CTA Buttons */}
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 w-full sm:w-auto pt-2">
               <button
                 onClick={scrollToSurvey}
-                className="w-full sm:w-auto flex items-center justify-center gap-2 rounded-full bg-[#0A2540] px-7 py-3.5 text-base font-bold text-white shadow-lg shadow-[#0A2540]/20 hover:bg-[#071D33] hover:shadow-xl transition-all duration-200 active:scale-95"
+                className="bg-[#00C896] text-white rounded-full px-8 py-4 text-base font-semibold hover:bg-[#00B085] transition-all shadow-lg shadow-[#00C896]/30 text-center active:scale-95 cursor-pointer"
               >
-                <span>Shape SafeSwap & Join Beta</span>
-                <ArrowRight className="h-5 w-5 text-[#00C896]" />
+                Take the Survey — 2 mins
               </button>
 
-              <a
-                href="#how-it-works"
-                className="w-full sm:w-auto flex items-center justify-center gap-1.5 rounded-full bg-white px-6 py-3.5 text-base font-semibold text-slate-700 border border-slate-200 shadow-xs hover:bg-slate-50 transition-all"
+              <button
+                onClick={scrollToHowItWorks}
+                className="text-[#0A2540] font-semibold underline decoration-dotted underline-offset-4 hover:opacity-80 transition-opacity text-center py-2 cursor-pointer"
               >
-                <span>See How It Works</span>
-                <ChevronRight className="h-4 w-4 text-slate-400" />
-              </a>
+                See How It Works →
+              </button>
             </div>
-          </motion.div>
 
-          {/* Right Column: Escrow Live Graphic Card */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="lg:col-span-5 relative"
-          >
-            <div className="relative mx-auto max-w-md rounded-3xl border border-slate-200 bg-white/90 p-6 shadow-2xl backdrop-blur-xl">
-              {/* Header inside card */}
-              <div className="flex items-center justify-between border-b border-slate-100 pb-4">
-                <div className="flex items-center gap-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#00C896]/15 text-[#00C896]">
-                    <ShieldCheck className="h-6 w-6" />
-                  </div>
-                  <div>
-                    <p className="text-xs text-slate-500 font-medium">Active Escrow Order</p>
-                    <p className="text-sm font-bold text-[#0A2540]">#SAF-84920-NG</p>
-                  </div>
-                </div>
-                <span className="rounded-full bg-amber-100 px-3 py-1 text-xs font-semibold text-amber-800">
-                  Payment Held 🔒
+            {/* Trust Badges Row */}
+            <div className="flex flex-wrap items-center gap-6 pt-4 text-xs text-gray-400 font-medium">
+              <div className="flex items-center gap-1.5">
+                <Lock className="h-3.5 w-3.5 text-[#0A2540]" />
+                <span>Funds held securely</span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <Check className="h-3.5 w-3.5 text-[#00C896]" />
+                <span>Free to use as a buyer</span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <span className="text-sm">↩</span>
+                <span>Full refund if undelivered</span>
+              </div>
+            </div>
+
+          </div>
+
+          {/* RIGHT SIDE: Floating Cards Mockup */}
+          <div className="lg:col-span-6 relative flex justify-center items-center py-8 lg:py-0">
+            
+            {/* Card 1 (Main Card) */}
+            <motion.div
+              animate={{ y: [0, -10, 0] }}
+              transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}
+              className="bg-white rounded-3xl p-6 md:p-8 shadow-xl border border-gray-100 w-full max-w-md relative z-10"
+            >
+              <div className="flex items-center justify-between border-b border-gray-100 pb-4 mb-5">
+                <span className="text-sm font-bold text-gray-400 uppercase tracking-wider">Payment Protected</span>
+                <span className="bg-[#00C896]/10 text-[#00C896] border border-[#00C896]/20 text-xs font-semibold px-3 py-1 rounded-full flex items-center gap-1">
+                  <Lock className="h-3 w-3" /> In Escrow 🔒
                 </span>
               </div>
 
-              {/* Transaction details */}
-              <div className="py-5 space-y-4">
-                <div className="rounded-xl bg-slate-50 p-4 border border-slate-100">
-                  <p className="text-xs text-slate-500 font-medium">Item Description</p>
-                  <p className="text-sm font-semibold text-slate-800">Designer Sneaker (Size 43) — Instagram Vendor</p>
-                  <div className="mt-2 flex justify-between items-center text-xs">
-                    <span className="text-slate-500">Escrow Amount:</span>
-                    <span className="text-base font-extrabold text-[#0A2540]">₦48,500.00</span>
-                  </div>
+              <div className="space-y-4">
+                <div className="flex justify-between items-center text-sm">
+                  <span className="text-gray-400">Buyer</span>
+                  <span className="font-bold text-[#0A2540]">Amaka O.</span>
+                </div>
+                <div className="flex justify-between items-center text-sm">
+                  <span className="text-gray-400">Seller</span>
+                  <span className="font-bold text-[#0A2540]">Lagos Gadgets</span>
+                </div>
+                <div className="flex justify-between items-center text-sm">
+                  <span className="text-gray-400">Item</span>
+                  <span className="font-bold text-[#0A2540]">iPhone 15 Pro Max</span>
                 </div>
 
-                {/* Progress steps animation preview */}
-                <div className="space-y-3">
-                  <div className="flex items-center gap-3 text-xs font-medium">
-                    <div className="flex h-6 w-6 items-center justify-center rounded-full bg-[#00C896] text-white">✓</div>
-                    <span className="text-slate-700">Buyer deposited funds into SafeSwap Vault</span>
-                  </div>
-                  <div className="flex items-center gap-3 text-xs font-medium">
-                    <div className="flex h-6 w-6 items-center justify-center rounded-full bg-[#00C896] text-white">✓</div>
-                    <span className="text-slate-700">Vendor dispatched item via courier</span>
-                  </div>
-                  <div className="flex items-center gap-3 text-xs font-medium">
-                    <div className="flex h-6 w-6 items-center justify-center rounded-full bg-amber-400 text-white animate-pulse">⏳</div>
-                    <span className="text-slate-900 font-bold">Awaiting Buyer Delivery Inspection</span>
-                  </div>
+                <div className="bg-[#F8FAFC] rounded-2xl p-4 mt-2 flex justify-between items-center">
+                  <span className="text-xs text-gray-500 font-medium">Total Amount</span>
+                  <span className="text-xl font-extrabold text-[#0A2540]">₦850,000</span>
                 </div>
               </div>
+            </motion.div>
 
-              {/* Action Button inside card preview */}
-              <div className="pt-2">
-                <div className="w-full py-3 px-4 rounded-xl bg-[#00C896] text-white text-center text-sm font-bold shadow-md flex items-center justify-center gap-2">
-                  <span>Confirm Package & Release Payment</span>
-                  <ArrowRight className="h-4 w-4" />
-                </div>
-                <p className="text-[11px] text-center text-slate-400 mt-2">
-                  Funds released instantly to vendor only when you click confirm.
-                </p>
+            {/* Card 2 (Floating Top Right) */}
+            <motion.div
+              animate={{ y: [0, -12, 0] }}
+              transition={{ repeat: Infinity, duration: 3.5, ease: "easeInOut", delay: 0.5 }}
+              className="bg-[#00C896] text-white rounded-2xl p-4 shadow-lg absolute -top-4 -right-2 sm:right-4 z-20 flex items-center gap-3"
+            >
+              <div className="bg-white/20 p-2 rounded-xl">
+                <TrendingUp className="h-5 w-5 text-white" />
               </div>
-            </div>
-          </motion.div>
+              <div>
+                <p className="text-xs text-white/80 font-medium">Protected volume</p>
+                <p className="text-sm font-extrabold">₦2.4B protected this month</p>
+              </div>
+            </motion.div>
+
+            {/* Card 3 (Floating Bottom Left) */}
+            <motion.div
+              animate={{ y: [0, -8, 0] }}
+              transition={{ repeat: Infinity, duration: 2.8, ease: "easeInOut", delay: 0.2 }}
+              className="bg-[#0A2540] text-white rounded-2xl p-4 shadow-lg absolute -bottom-6 -left-2 sm:left-4 z-20 flex items-center gap-3 max-w-[260px]"
+            >
+              <div className="bg-[#00C896]/20 text-[#00C896] p-2 rounded-xl shrink-0">
+                <CheckCircle2 className="h-5 w-5" />
+              </div>
+              <p className="text-xs font-semibold leading-snug">
+                Seller ships after seeing secured payment
+              </p>
+            </motion.div>
+
+          </div>
 
         </div>
       </div>

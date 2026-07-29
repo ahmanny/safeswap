@@ -3,6 +3,8 @@ import { Footer } from "@/components/shared/footer";
 import { BuyerHero } from "@/components/buyers/hero";
 import { BuyerHowItWorks } from "@/components/buyers/how-it-works";
 import { BuyerFeatures } from "@/components/buyers/features";
+import { BuyerPersonas } from "@/components/buyers/personas";
+import { BuyerTrustStats } from "@/components/buyers/trust-stats";
 import { BuyerFAQ } from "@/components/buyers/faq";
 import { BuyerSurveyForm } from "@/components/buyers/survey-form";
 
@@ -14,6 +16,8 @@ export default function BuyerLandingPage() {
         <BuyerHero />
         <BuyerHowItWorks />
         <BuyerFeatures />
+        <BuyerPersonas />
+        <BuyerTrustStats />
         <BuyerFAQ />
         <BuyerSurveyForm />
       </main>

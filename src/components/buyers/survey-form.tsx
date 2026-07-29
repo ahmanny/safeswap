@@ -1,323 +1,577 @@
 "use client";
 
 import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
-import { toast } from "sonner";
-import { ShieldCheck, Send, Check, Sparkles, AlertCircle } from "lucide-react";
-import { submitBuyerSurvey } from "@/lib/survey-actions";
-
-const buyerSurveySchema = z.object({
-  name: z.string().min(2, "Please enter your full name"),
-  email: z.string().email("Please enter a valid email address"),
-  phone: z.string().min(10, "Please enter a valid WhatsApp phone number"),
-  biggestFear: z.string().min(1, "Please select your main frustration"),
-  desiredFeatures: z.array(z.string()).min(1, "Please select at least 1 feature you want"),
-  shoppingFrequency: z.string().min(1, "Please select your shopping frequency"),
-  additionalFeedback: z.string().optional(),
-});
-
-type BuyerSurveyFormValues = z.infer<typeof buyerSurveySchema>;
+import { motion, AnimatePresence } from "framer-motion";
+import { CheckCircle, Share2, ArrowRight, ArrowLeft } from "lucide-react";
 
 export function BuyerSurveyForm() {
-  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [currentStep, setCurrentStep] = useState(1);
+  const totalSteps = 7;
+
+  // Form State
+  const [q1Frequency, setQ1Frequency] = useState("");
+  const [q2Scammed, setQ2Scammed] = useState("");
+  const [q3Spend, setQ3Spend] = useState("");
+  const [q4Concerns, setQ4Concerns] = useState<string[]>([]);
+  const [q5EscrowUse, setQ5EscrowUse] = useState("");
+  const [q6Features, setQ6Features] = useState<string[]>([]);
+  
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
 
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    watch,
-    formState: { errors },
-  } = useForm<BuyerSurveyFormValues>({
-    resolver: zodResolver(buyerSurveySchema),
-    defaultValues: {
-      desiredFeatures: [],
-      biggestFear: "",
-      shoppingFrequency: "",
-      name: "",
-      email: "",
-      phone: "",
-      additionalFeedback: "",
-    },
-  });
-
-  const selectedFeatures = watch("desiredFeatures") || [];
-  const selectedFear = watch("biggestFear");
-  const selectedFrequency = watch("shoppingFrequency");
-
-  const fearOptions = [
-    { id: "vendor_disappearing", label: "Vendor taking money & blocking me on Instagram/WhatsApp" },
-    { id: "what_i_ordered_vs_got", label: "Receiving 'What I ordered vs what I got' (wrong/cheap item)" },
-    { id: "pod_scams", label: "Pay On Delivery scams (rider demanding money before opening package)" },
-    { id: "no_refunds", label: "Vendors refusing refunds when items arrive broken or defective" },
-  ];
-
-  const featureOptions = [
-    { id: "inspection_timer", label: "⏳ 24-Hour Item Inspection window before seller gets paid" },
-    { id: "whatsapp_updates", label: "💬 Real-Time WhatsApp tracking alerts for every order step" },
-    { id: "verified_badges", label: "🛡️ Verified Seller Trust Ratings & past buyer reviews" },
-    { id: "instant_refund_btn", label: "⚡ 1-Click Instant Refund button if wrong item arrives" },
-  ];
-
-  const frequencyOptions = [
-    { id: "rare", label: "1 - 2 times a month" },
-    { id: "regular", label: "3 - 6 times a month" },
-    { id: "heavy", label: "7+ times a month (Heavy Shopper)" },
-  ];
-
-  const toggleFeature = (featureId: string) => {
-    const current = selectedFeatures;
-    if (current.includes(featureId)) {
-      setValue(
-        "desiredFeatures",
-        current.filter((item) => item !== featureId),
-        { shouldValidate: true }
-      );
+  const handleCheckboxToggle = (
+    list: string[],
+    setList: React.Dispatch<React.SetStateAction<string[]>>,
+    value: string
+  ) => {
+    if (list.includes(value)) {
+      setList(list.filter((item) => item !== value));
     } else {
-      setValue("desiredFeatures", [...current, featureId], { shouldValidate: true });
+      setList([...list, value]);
     }
   };
 
-  const onSubmit = async (data: BuyerSurveyFormValues) => {
+  const handleNext = () => {
+    setErrorMsg("");
+    // Basic validation per step if needed
+    if (currentStep === 1 && !q1Frequency) {
+      setErrorMsg("Please select an option to continue.");
+      return;
+    }
+    if (currentStep === 2 && !q2Scammed) {
+      setErrorMsg("Please select an option to continue.");
+      return;
+    }
+    if (currentStep === 3 && !q3Spend) {
+      setErrorMsg("Please select an option to continue.");
+      return;
+    }
+    if (currentStep === 4 && q4Concerns.length === 0) {
+      setErrorMsg("Please select at least one concern to continue.");
+      return;
+    }
+    if (currentStep === 5 && !q5EscrowUse) {
+      setErrorMsg("Please select an option to continue.");
+      return;
+    }
+    if (currentStep === 6 && q6Features.length === 0) {
+      setErrorMsg("Please select at least one feature to continue.");
+      return;
+    }
+
+    if (currentStep < totalSteps) {
+      setCurrentStep((prev) => prev + 1);
+    }
+  };
+
+  const handleBack = () => {
+    setErrorMsg("");
+    if (currentStep > 1) {
+      setCurrentStep((prev) => prev - 1);
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
     setIsSubmitting(true);
+    setErrorMsg("");
+
+    const payload = {
+      shoppingFrequency: q1Frequency,
+      scamHistory: q2Scammed,
+      typicalSpend: q3Spend,
+      biggestConcerns: q4Concerns,
+      wouldUseEscrow: q5EscrowUse,
+      mostImportantFeatures: q6Features,
+      email: email || undefined,
+      phone: phone || undefined,
+      name: name || undefined,
+    };
+
     try {
-      const res = await submitBuyerSurvey(data);
-      if (res.success) {
-        toast.success(res.message);
+      const res = await fetch("/api/survey/buyers", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      if (res.ok) {
         setIsSubmitted(true);
+      } else {
+        setErrorMsg("Something went wrong. Please try again.");
       }
-    } catch (err) {
-      toast.error("Failed to submit. Please try again.");
+    } catch {
+      setErrorMsg("Network error. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
   };
 
+  const handleShare = () => {
+    if (navigator.share) {
+      navigator.share({
+        title: "SafeSwap - Buy Anything Online Without Fear",
+        text: "Check out SafeSwap, an escrow platform keeping online buying safe in Nigeria!",
+        url: window.location.href,
+      }).catch(() => {});
+    } else {
+      navigator.clipboard.writeText(window.location.href);
+      alert("Link copied to clipboard!");
+    }
+  };
+
+  const progressPercentage = (currentStep / totalSteps) * 100;
+
   return (
-    <section id="survey-section" className="py-20 bg-gradient-to-b from-[#F8FAFC] to-emerald-50/40">
-      <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
+    <section id="survey" className="bg-[#F8FAFC] py-20 md:py-28">
+      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Section Header */}
-        <div className="text-center max-w-2xl mx-auto mb-12 space-y-3">
-          <div className="inline-flex items-center gap-2 rounded-full bg-[#00C896]/15 px-4 py-1.5 text-xs font-semibold text-[#0A2540]">
-            <Sparkles className="h-4 w-4 text-[#00C896]" />
-            <span>Help Us Build SafeSwap For You</span>
-          </div>
-          <h2 className="text-3xl font-extrabold tracking-tight text-[#0A2540] sm:text-4xl">
-            Have Your Say & Get Priority Beta Access
+        {/* Header */}
+        <div className="text-center space-y-3 mb-10">
+          <h2 className="text-3xl md:text-4xl font-extrabold text-[#0A2540] tracking-tight">
+            Help Us Build SafeSwap for You
           </h2>
-          <p className="text-slate-600 text-sm sm:text-base">
-            Tell us your biggest shopping headaches and what features you want in SafeSwap. Early respondents get <span className="font-bold text-[#00C896]">Zero Escrow Fees</span> on their first 5 orders!
+          <p className="text-gray-500 text-lg">
+            2-minute survey — your answers shape what we build. No spam, ever.
           </p>
         </div>
 
-        {/* Survey Card Container */}
-        <div className="rounded-3xl border border-slate-200 bg-white p-6 sm:p-10 shadow-xl">
+        {/* Card Container */}
+        <div className="bg-white rounded-3xl p-6 sm:p-10 shadow-xl border border-gray-100 relative overflow-hidden">
+          
           {isSubmitted ? (
-            <div className="py-12 text-center space-y-6">
-              <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-[#00C896]/15 text-[#00C896]">
-                <Check className="h-10 w-10 stroke-[3]" />
+            /* SUCCESS STATE */
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              className="text-center py-8 space-y-6"
+            >
+              <div className="w-20 h-20 bg-[#00C896]/15 text-[#00C896] rounded-full flex items-center justify-center mx-auto">
+                <CheckCircle className="h-12 w-12" />
               </div>
-              <h3 className="text-2xl font-bold text-[#0A2540]">You're On The VIP List! 🎉</h3>
-              <p className="text-slate-600 max-w-md mx-auto text-sm sm:text-base">
-                Thank you for sharing your feedback. We're actively building SafeSwap around your input and will invite you to the private beta on WhatsApp soon.
-              </p>
-              <button
-                onClick={() => setIsSubmitted(false)}
-                className="rounded-full bg-[#0A2540] px-6 py-2.5 text-sm font-semibold text-white hover:bg-[#071D33] transition-colors"
-              >
-                Submit another response
-              </button>
-            </div>
-          ) : (
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
               
-              {/* Question 1: Biggest Fear / Headache */}
-              <div className="space-y-3">
-                <label className="block text-sm font-bold text-[#0A2540]">
-                  1. What is your biggest frustration when buying online in Nigeria? <span className="text-red-500">*</span>
-                </label>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  {fearOptions.map((opt) => {
-                    const isSelected = selectedFear === opt.id;
-                    return (
-                      <button
-                        key={opt.id}
-                        type="button"
-                        onClick={() => setValue("biggestFear", opt.id, { shouldValidate: true })}
-                        className={`flex items-center gap-3 p-4 rounded-xl border text-left text-xs sm:text-sm font-medium transition-all ${
-                          isSelected
-                            ? "border-[#00C896] bg-[#00C896]/10 text-[#0A2540] shadow-xs"
-                            : "border-slate-200 bg-[#F8FAFC] text-slate-700 hover:border-slate-300"
-                        }`}
-                      >
-                        <div
-                          className={`h-4 w-4 rounded-full border flex items-center justify-center shrink-0 ${
-                            isSelected ? "border-[#00C896] bg-[#00C896]" : "border-slate-400"
-                          }`}
-                        >
-                          {isSelected && <div className="h-1.5 w-1.5 rounded-full bg-white" />}
-                        </div>
-                        <span>{opt.label}</span>
-                      </button>
-                    );
-                  })}
-                </div>
-                {errors.biggestFear && (
-                  <p className="text-xs text-red-500 flex items-center gap-1 mt-1">
-                    <AlertCircle className="h-3.5 w-3.5" />
-                    <span>{errors.biggestFear.message}</span>
-                  </p>
-                )}
-              </div>
-
-              {/* Question 2: Desired Features */}
-              <div className="space-y-3">
-                <label className="block text-sm font-bold text-[#0A2540]">
-                  2. Which features do you want MOST in SafeSwap? <span className="text-slate-400 font-normal">(Select all that apply)</span> <span className="text-red-500">*</span>
-                </label>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  {featureOptions.map((opt) => {
-                    const isSelected = selectedFeatures.includes(opt.id);
-                    return (
-                      <button
-                        key={opt.id}
-                        type="button"
-                        onClick={() => toggleFeature(opt.id)}
-                        className={`flex items-center gap-3 p-4 rounded-xl border text-left text-xs sm:text-sm font-medium transition-all ${
-                          isSelected
-                            ? "border-[#0A2540] bg-[#0A2540] text-white shadow-xs"
-                            : "border-slate-200 bg-[#F8FAFC] text-slate-700 hover:border-slate-300"
-                        }`}
-                      >
-                        <div
-                          className={`h-4 w-4 rounded border flex items-center justify-center shrink-0 ${
-                            isSelected ? "border-[#00C896] bg-[#00C896]" : "border-slate-400"
-                          }`}
-                        >
-                          {isSelected && <Check className="h-3 w-3 text-white stroke-[3]" />}
-                        </div>
-                        <span>{opt.label}</span>
-                      </button>
-                    );
-                  })}
-                </div>
-                {errors.desiredFeatures && (
-                  <p className="text-xs text-red-500 flex items-center gap-1 mt-1">
-                    <AlertCircle className="h-3.5 w-3.5" />
-                    <span>{errors.desiredFeatures.message}</span>
-                  </p>
-                )}
-              </div>
-
-              {/* Question 3: Frequency */}
-              <div className="space-y-3">
-                <label className="block text-sm font-bold text-[#0A2540]">
-                  3. How often do you buy from Instagram / WhatsApp vendors? <span className="text-red-500">*</span>
-                </label>
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                  {frequencyOptions.map((opt) => {
-                    const isSelected = selectedFrequency === opt.id;
-                    return (
-                      <button
-                        key={opt.id}
-                        type="button"
-                        onClick={() => setValue("shoppingFrequency", opt.id, { shouldValidate: true })}
-                        className={`p-3.5 rounded-xl border text-center text-xs sm:text-sm font-medium transition-all ${
-                          isSelected
-                            ? "border-[#00C896] bg-[#00C896]/10 text-[#0A2540] font-bold"
-                            : "border-slate-200 bg-[#F8FAFC] text-slate-700 hover:border-slate-300"
-                        }`}
-                      >
-                        {opt.label}
-                      </button>
-                    );
-                  })}
-                </div>
-                {errors.shoppingFrequency && (
-                  <p className="text-xs text-red-500 flex items-center gap-1 mt-1">
-                    <AlertCircle className="h-3.5 w-3.5" />
-                    <span>{errors.shoppingFrequency.message}</span>
-                  </p>
-                )}
-              </div>
-
-              {/* Additional Feedback */}
               <div className="space-y-2">
-                <label className="block text-sm font-bold text-[#0A2540]">
-                  4. What else should we add to make online shopping 100% safe for you? <span className="text-slate-400 font-normal">(Optional)</span>
-                </label>
-                <textarea
-                  {...register("additionalFeedback")}
-                  rows={3}
-                  placeholder="e.g. I want riders to wait while I fit the shoe, or instant bank transfer support..."
-                  className="w-full rounded-xl border border-slate-200 p-3.5 text-sm focus:border-[#00C896] focus:outline-none focus:ring-2 focus:ring-[#00C896]/20"
-                />
+                <h3 className="text-3xl font-black text-[#0A2540]">Thank you! 🎉</h3>
+                <p className="text-gray-600 max-w-md mx-auto text-base">
+                  You're on the early access list. We'll reach out when SafeSwap launches.
+                </p>
               </div>
 
-              {/* Personal Details */}
-              <div className="border-t border-slate-100 pt-6 space-y-4">
-                <h4 className="text-sm font-bold text-[#0A2540] flex items-center gap-2">
-                  <ShieldCheck className="h-4 w-4 text-[#00C896]" />
-                  <span>Where should we send your Early Access Beta Invite?</span>
-                </h4>
-
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                  <div>
-                    <label className="block text-xs font-semibold text-slate-700 mb-1">Full Name *</label>
-                    <input
-                      {...register("name")}
-                      type="text"
-                      placeholder="e.g. Funke Adeleke"
-                      className="w-full rounded-xl border border-slate-200 p-3 text-sm focus:border-[#00C896] focus:outline-none"
-                    />
-                    {errors.name && <p className="text-xs text-red-500 mt-1">{errors.name.message}</p>}
-                  </div>
-
-                  <div>
-                    <label className="block text-xs font-semibold text-slate-700 mb-1">Email Address *</label>
-                    <input
-                      {...register("email")}
-                      type="email"
-                      placeholder="funke@gmail.com"
-                      className="w-full rounded-xl border border-slate-200 p-3 text-sm focus:border-[#00C896] focus:outline-none"
-                    />
-                    {errors.email && <p className="text-xs text-red-500 mt-1">{errors.email.message}</p>}
-                  </div>
-
-                  <div>
-                    <label className="block text-xs font-semibold text-slate-700 mb-1">WhatsApp Phone Number *</label>
-                    <input
-                      {...register("phone")}
-                      type="tel"
-                      placeholder="08012345678"
-                      className="w-full rounded-xl border border-slate-200 p-3 text-sm focus:border-[#00C896] focus:outline-none"
-                    />
-                    {errors.phone && <p className="text-xs text-red-500 mt-1">{errors.phone.message}</p>}
-                  </div>
+              <div className="pt-4">
+                <button
+                  onClick={handleShare}
+                  className="inline-flex items-center gap-2 bg-[#00C896] text-white rounded-full px-8 py-3.5 text-base font-semibold hover:bg-[#00B085] transition-all shadow-md shadow-[#00C896]/30 cursor-pointer"
+                >
+                  <Share2 className="h-5 w-5" />
+                  <span>Share with a Friend</span>
+                </button>
+              </div>
+            </motion.div>
+          ) : (
+            /* MULTI-STEP FORM */
+            <div>
+              {/* Progress Bar */}
+              <div className="mb-8">
+                <div className="flex justify-between items-center text-xs font-semibold text-gray-400 mb-2">
+                  <span>Question {currentStep} of {totalSteps}</span>
+                  <span>{Math.round(progressPercentage)}% Completed</span>
+                </div>
+                <div className="w-full h-2.5 bg-gray-100 rounded-full overflow-hidden">
+                  <motion.div
+                    className="h-full bg-[#00C896]"
+                    animate={{ width: `${progressPercentage}%` }}
+                    transition={{ duration: 0.3 }}
+                  />
                 </div>
               </div>
 
-              {/* Submit Button */}
-              <button
-                type="submit"
-                disabled={isSubmitting}
-                className="w-full flex items-center justify-center gap-2 rounded-2xl bg-[#0A2540] py-4 text-base font-bold text-white shadow-lg hover:bg-[#071D33] active:scale-98 disabled:opacity-50 transition-all"
-              >
-                {isSubmitting ? (
-                  <span>Submitting Feedback...</span>
-                ) : (
-                  <>
-                    <span>Submit & Claim Beta Access</span>
-                    <Send className="h-5 w-5 text-[#00C896]" />
-                  </>
-                )}
-              </button>
+              {errorMsg && (
+                <div className="mb-6 p-3 bg-red-50 text-red-600 border border-red-200 rounded-xl text-sm font-medium">
+                  {errorMsg}
+                </div>
+              )}
 
-            </form>
+              {/* QUESTIONS */}
+              <form onSubmit={handleSubmit}>
+                <AnimatePresence mode="wait">
+                  
+                  {/* QUESTION 1 */}
+                  {currentStep === 1 && (
+                    <motion.div
+                      key="step1"
+                      initial={{ opacity: 0, x: 20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: -20 }}
+                      transition={{ duration: 0.25 }}
+                      className="space-y-6"
+                    >
+                      <h3 className="text-xl font-bold text-[#0A2540]">
+                        How often do you shop from online vendors (Instagram, WhatsApp, Jiji, etc.)?
+                      </h3>
+                      <div className="space-y-3">
+                        {[
+                          "Almost every week",
+                          "A few times a month",
+                          "Occasionally",
+                          "Rarely",
+                        ].map((option) => (
+                          <label
+                            key={option}
+                            onClick={() => setQ1Frequency(option)}
+                            className={`flex items-center gap-3 p-4 rounded-2xl border text-sm font-semibold transition-all cursor-pointer ${
+                              q1Frequency === option
+                                ? "border-[#00C896] bg-[#00C896]/10 text-[#0A2540]"
+                                : "border-gray-200 hover:border-gray-300 text-gray-700 bg-white"
+                            }`}
+                          >
+                            <input
+                              type="radio"
+                              name="q1"
+                              checked={q1Frequency === option}
+                              onChange={() => {}}
+                              className="accent-[#00C896] h-4 w-4"
+                            />
+                            <span>{option}</span>
+                          </label>
+                        ))}
+                      </div>
+                    </motion.div>
+                  )}
+
+                  {/* QUESTION 2 */}
+                  {currentStep === 2 && (
+                    <motion.div
+                      key="step2"
+                      initial={{ opacity: 0, x: 20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: -20 }}
+                      transition={{ duration: 0.25 }}
+                      className="space-y-6"
+                    >
+                      <h3 className="text-xl font-bold text-[#0A2540]">
+                        Have you ever been scammed or received a wrong item when buying online?
+                      </h3>
+                      <div className="space-y-3">
+                        {[
+                          "Yes, more than once",
+                          "Yes, once",
+                          "No, but I know someone who has",
+                          "No, never",
+                        ].map((option) => (
+                          <label
+                            key={option}
+                            onClick={() => setQ2Scammed(option)}
+                            className={`flex items-center gap-3 p-4 rounded-2xl border text-sm font-semibold transition-all cursor-pointer ${
+                              q2Scammed === option
+                                ? "border-[#00C896] bg-[#00C896]/10 text-[#0A2540]"
+                                : "border-gray-200 hover:border-gray-300 text-gray-700 bg-white"
+                            }`}
+                          >
+                            <input
+                              type="radio"
+                              name="q2"
+                              checked={q2Scammed === option}
+                              onChange={() => {}}
+                              className="accent-[#00C896] h-4 w-4"
+                            />
+                            <span>{option}</span>
+                          </label>
+                        ))}
+                      </div>
+                    </motion.div>
+                  )}
+
+                  {/* QUESTION 3 */}
+                  {currentStep === 3 && (
+                    <motion.div
+                      key="step3"
+                      initial={{ opacity: 0, x: 20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: -20 }}
+                      transition={{ duration: 0.25 }}
+                      className="space-y-6"
+                    >
+                      <h3 className="text-xl font-bold text-[#0A2540]">
+                        How much do you typically spend per online transaction?
+                      </h3>
+                      <div className="space-y-3">
+                        {[
+                          "Under ₦10,000",
+                          "₦10,000 — ₦50,000",
+                          "₦50,000 — ₦200,000",
+                          "Over ₦200,000",
+                        ].map((option) => (
+                          <label
+                            key={option}
+                            onClick={() => setQ3Spend(option)}
+                            className={`flex items-center gap-3 p-4 rounded-2xl border text-sm font-semibold transition-all cursor-pointer ${
+                              q3Spend === option
+                                ? "border-[#00C896] bg-[#00C896]/10 text-[#0A2540]"
+                                : "border-gray-200 hover:border-gray-300 text-gray-700 bg-white"
+                            }`}
+                          >
+                            <input
+                              type="radio"
+                              name="q3"
+                              checked={q3Spend === option}
+                              onChange={() => {}}
+                              className="accent-[#00C896] h-4 w-4"
+                            />
+                            <span>{option}</span>
+                          </label>
+                        ))}
+                      </div>
+                    </motion.div>
+                  )}
+
+                  {/* QUESTION 4 */}
+                  {currentStep === 4 && (
+                    <motion.div
+                      key="step4"
+                      initial={{ opacity: 0, x: 20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: -20 }}
+                      transition={{ duration: 0.25 }}
+                      className="space-y-6"
+                    >
+                      <div>
+                        <h3 className="text-xl font-bold text-[#0A2540]">
+                          What is your biggest concern when buying from an unknown online seller?
+                        </h3>
+                        <p className="text-xs text-gray-400 mt-1 font-medium">Select all that apply</p>
+                      </div>
+                      <div className="space-y-3">
+                        {[
+                          "Not receiving the item",
+                          "Receiving a different/fake item",
+                          "No way to get a refund",
+                          "Seller disappearing after payment",
+                          "Poor quality item",
+                        ].map((option) => {
+                          const isChecked = q4Concerns.includes(option);
+                          return (
+                            <label
+                              key={option}
+                              onClick={() => handleCheckboxToggle(q4Concerns, setQ4Concerns, option)}
+                              className={`flex items-center gap-3 p-4 rounded-2xl border text-sm font-semibold transition-all cursor-pointer ${
+                                isChecked
+                                  ? "border-[#00C896] bg-[#00C896]/10 text-[#0A2540]"
+                                  : "border-gray-200 hover:border-gray-300 text-gray-700 bg-white"
+                              }`}
+                            >
+                              <input
+                                type="checkbox"
+                                checked={isChecked}
+                                onChange={() => {}}
+                                className="accent-[#00C896] h-4 w-4 rounded"
+                              />
+                              <span>{option}</span>
+                            </label>
+                          );
+                        })}
+                      </div>
+                    </motion.div>
+                  )}
+
+                  {/* QUESTION 5 */}
+                  {currentStep === 5 && (
+                    <motion.div
+                      key="step5"
+                      initial={{ opacity: 0, x: 20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: -20 }}
+                      transition={{ duration: 0.25 }}
+                      className="space-y-6"
+                    >
+                      <h3 className="text-xl font-bold text-[#0A2540]">
+                        Would you use an escrow service that holds your money until you confirm delivery?
+                      </h3>
+                      <div className="space-y-3">
+                        {[
+                          "Absolutely — I need this now",
+                          "Yes, for large purchases",
+                          "Maybe, depends on the fees",
+                          "Probably not",
+                        ].map((option) => (
+                          <label
+                            key={option}
+                            onClick={() => setQ5EscrowUse(option)}
+                            className={`flex items-center gap-3 p-4 rounded-2xl border text-sm font-semibold transition-all cursor-pointer ${
+                              q5EscrowUse === option
+                                ? "border-[#00C896] bg-[#00C896]/10 text-[#0A2540]"
+                                : "border-gray-200 hover:border-gray-300 text-gray-700 bg-white"
+                            }`}
+                          >
+                            <input
+                              type="radio"
+                              name="q5"
+                              checked={q5EscrowUse === option}
+                              onChange={() => {}}
+                              className="accent-[#00C896] h-4 w-4"
+                            />
+                            <span>{option}</span>
+                          </label>
+                        ))}
+                      </div>
+                    </motion.div>
+                  )}
+
+                  {/* QUESTION 6 */}
+                  {currentStep === 6 && (
+                    <motion.div
+                      key="step6"
+                      initial={{ opacity: 0, x: 20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: -20 }}
+                      transition={{ duration: 0.25 }}
+                      className="space-y-6"
+                    >
+                      <div>
+                        <h3 className="text-xl font-bold text-[#0A2540]">
+                          What features matter most to you?
+                        </h3>
+                        <p className="text-xs text-gray-400 mt-1 font-medium">Select all that apply</p>
+                      </div>
+                      <div className="space-y-3">
+                        {[
+                          "Instant refund if undelivered",
+                          "Real-time tracking updates",
+                          "Dispute resolution support",
+                          "Works with WhatsApp vendors",
+                          "No fees for buyers",
+                          "Mobile app",
+                        ].map((option) => {
+                          const isChecked = q6Features.includes(option);
+                          return (
+                            <label
+                              key={option}
+                              onClick={() => handleCheckboxToggle(q6Features, setQ6Features, option)}
+                              className={`flex items-center gap-3 p-4 rounded-2xl border text-sm font-semibold transition-all cursor-pointer ${
+                                isChecked
+                                  ? "border-[#00C896] bg-[#00C896]/10 text-[#0A2540]"
+                                  : "border-gray-200 hover:border-gray-300 text-gray-700 bg-white"
+                              }`}
+                            >
+                              <input
+                                type="checkbox"
+                                checked={isChecked}
+                                onChange={() => {}}
+                                className="accent-[#00C896] h-4 w-4 rounded"
+                              />
+                              <span>{option}</span>
+                            </label>
+                          );
+                        })}
+                      </div>
+                    </motion.div>
+                  )}
+
+                  {/* QUESTION 7 (FINAL) */}
+                  {currentStep === 7 && (
+                    <motion.div
+                      key="step7"
+                      initial={{ opacity: 0, x: 20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: -20 }}
+                      transition={{ duration: 0.25 }}
+                      className="space-y-6"
+                    >
+                      <div>
+                        <h3 className="text-xl font-bold text-[#0A2540]">
+                          Drop your email to get early access when we launch:
+                        </h3>
+                        <p className="text-xs text-gray-400 mt-1 font-medium">
+                          Your details will only be used to notify you about SafeSwap launch. We hate spam.
+                        </p>
+                      </div>
+
+                      <div className="space-y-4">
+                        <div>
+                          <label className="block text-sm font-semibold text-[#0A2540] mb-1">
+                            Email Address <span className="text-gray-400 font-normal">(Optional)</span>
+                          </label>
+                          <input
+                            type="email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            placeholder="name@example.com"
+                            className="w-full rounded-2xl border border-gray-200 p-4 text-sm focus:border-[#00C896] focus:outline-none bg-[#F8FAFC]"
+                          />
+                        </div>
+
+                        <div>
+                          <label className="block text-sm font-semibold text-[#0A2540] mb-1">
+                            Phone Number <span className="text-gray-400 font-normal">(Optional)</span>
+                          </label>
+                          <input
+                            type="tel"
+                            value={phone}
+                            onChange={(e) => setPhone(e.target.value)}
+                            placeholder="08012345678"
+                            className="w-full rounded-2xl border border-gray-200 p-4 text-sm focus:border-[#00C896] focus:outline-none bg-[#F8FAFC]"
+                          />
+                        </div>
+
+                        <div>
+                          <label className="block text-sm font-semibold text-[#0A2540] mb-1">
+                            Name <span className="text-gray-400 font-normal">(Optional)</span>
+                          </label>
+                          <input
+                            type="text"
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
+                            placeholder="Amaka Okonkwo"
+                            className="w-full rounded-2xl border border-gray-200 p-4 text-sm focus:border-[#00C896] focus:outline-none bg-[#F8FAFC]"
+                          />
+                        </div>
+                      </div>
+                    </motion.div>
+                  )}
+
+                </AnimatePresence>
+
+                {/* FORM NAVIGATION BUTTONS */}
+                <div className="mt-10 flex items-center justify-between border-t border-gray-100 pt-6">
+                  {currentStep > 1 ? (
+                    <button
+                      type="button"
+                      onClick={handleBack}
+                      className="inline-flex items-center gap-1 text-sm font-semibold text-gray-500 hover:text-[#0A2540] transition-colors cursor-pointer"
+                    >
+                      <ArrowLeft className="h-4 w-4" />
+                      <span>Back</span>
+                    </button>
+                  ) : <div />}
+
+                  {currentStep < totalSteps ? (
+                    <button
+                      type="button"
+                      onClick={handleNext}
+                      className="inline-flex items-center gap-2 bg-[#0A2540] text-white rounded-full px-7 py-3 text-sm font-semibold hover:bg-[#071D33] transition-all cursor-pointer"
+                    >
+                      <span>Next</span>
+                      <ArrowRight className="h-4 w-4" />
+                    </button>
+                  ) : (
+                    <button
+                      type="submit"
+                      disabled={isSubmitting}
+                      className="inline-flex items-center gap-2 bg-[#00C896] text-white rounded-full px-8 py-3.5 text-base font-bold hover:bg-[#00B085] transition-all shadow-md shadow-[#00C896]/30 disabled:opacity-50 cursor-pointer"
+                    >
+                      {isSubmitting ? "Submitting..." : "Submit Survey 🎉"}
+                    </button>
+                  )}
+                </div>
+
+              </form>
+            </div>
           )}
+
         </div>
 
       </div>

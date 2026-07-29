@@ -1,70 +1,67 @@
 "use client";
 
 import { useState } from "react";
-import { ChevronDown, HelpCircle } from "lucide-react";
+import { Plus, Minus } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export function BuyerFAQ() {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
-  const faqs = [
+  const questions = [
     {
-      q: "How does SafeSwap hold my payment?",
-      a: "When you pay via a SafeSwap link, your money goes directly into a secure CBN-compliant escrow pool account. Neither the vendor nor SafeSwap can touch those funds until you inspect and approve delivery.",
+      q: "Is SafeSwap free for buyers?",
+      a: "Yes. SafeSwap is completely free for buyers. A small transaction fee is charged to sellers.",
     },
     {
-      q: "What if the seller disappears or doesn't deliver?",
-      a: "If the seller fails to provide valid courier tracking or doesn't deliver within the agreed timeframe, your payment is automatically refunded 100% back to your bank account.",
+      q: "What happens if my item never arrives?",
+      a: "If the seller doesn't deliver within the agreed timeframe, your full payment is returned to you automatically.",
     },
     {
-      q: "What if the item delivered is broken or 'What I ordered vs what I got'?",
-      a: "Simply click 'Dispute Order' on your phone and upload a quick photo or video. Our resolution team places the transaction on hold and issues a full refund once the item is returned.",
+      q: "What if the item is different from what was described?",
+      a: "Open a dispute on the app. Our team reviews evidence from both sides and makes a fair decision within 48 hours.",
     },
     {
-      q: "Does SafeSwap charge buyers any extra fee?",
-      a: "No! SafeSwap is 100% free for buyers. You pay the exact price agreed with your vendor.",
+      q: "Which payment methods are supported?",
+      a: "Bank transfer, USSD, debit/credit cards, and all major Nigerian payment gateways.",
     },
     {
-      q: "How long do I have to inspect my item before funds auto-release?",
-      a: "You get a standard 24-hour inspection window after delivery is logged. You can also request an extension if you need more time to inspect technical items.",
+      q: "How long does SafeSwap hold my money?",
+      a: "Until you confirm delivery or the agreed delivery window expires — whichever comes first.",
     },
   ];
 
   return (
-    <section id="faq" className="py-20 bg-white border-t border-slate-100">
-      <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
+    <section id="faq" className="bg-white py-20 md:py-28 border-b border-gray-100">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        <div className="text-center space-y-4 mb-14">
-          <div className="inline-flex items-center gap-2 rounded-full bg-[#0A2540]/5 px-4 py-1.5 text-xs font-semibold text-[#0A2540]">
-            <HelpCircle className="h-4 w-4 text-[#00C896]" />
-            <span>Got Questions?</span>
-          </div>
-          <h2 className="text-3xl font-extrabold tracking-tight text-[#0A2540] sm:text-4xl">
+        {/* Header */}
+        <div className="text-center space-y-3 mb-14">
+          <h2 className="text-3xl md:text-4xl font-extrabold text-[#0A2540] tracking-tight">
             Frequently Asked Questions
           </h2>
-          <p className="text-slate-600 text-base">
-            Everything you need to know about buying safely with SafeSwap.
+          <p className="text-gray-500 text-lg">
+            Have questions? We're here to answer them.
           </p>
         </div>
 
-        <div className="space-y-4">
-          {faqs.map((faq, idx) => {
+        {/* Accordion List */}
+        <div className="divide-y divide-gray-200 border-t border-b border-gray-200">
+          {questions.map((item, idx) => {
             const isOpen = openIndex === idx;
             return (
-              <div
-                key={faq.q}
-                className="rounded-2xl border border-slate-200 bg-[#F8FAFC] overflow-hidden transition-all duration-200"
-              >
+              <div key={item.q} className="py-5 transition-colors">
                 <button
                   onClick={() => setOpenIndex(isOpen ? null : idx)}
-                  className="flex w-full items-center justify-between p-6 text-left font-bold text-[#0A2540] hover:text-[#00C896] transition-colors"
+                  className="flex w-full items-center justify-between text-left font-bold text-[#0A2540] text-lg hover:text-[#00C896] transition-colors cursor-pointer py-1"
                 >
-                  <span className="text-base sm:text-lg pr-4">{faq.q}</span>
-                  <ChevronDown
-                    className={`h-5 w-5 shrink-0 text-slate-400 transition-transform duration-300 ${
-                      isOpen ? "rotate-180 text-[#00C896]" : ""
-                    }`}
-                  />
+                  <span className="pr-4">{item.q}</span>
+                  <div className="shrink-0 text-[#0A2540]">
+                    {isOpen ? (
+                      <Minus className="h-5 w-5 text-[#00C896]" />
+                    ) : (
+                      <Plus className="h-5 w-5" />
+                    )}
+                  </div>
                 </button>
 
                 <AnimatePresence>
@@ -73,12 +70,12 @@ export function BuyerFAQ() {
                       initial={{ height: 0, opacity: 0 }}
                       animate={{ height: "auto", opacity: 1 }}
                       exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.3 }}
+                      transition={{ duration: 0.25, ease: "easeInOut" }}
                       className="overflow-hidden"
                     >
-                      <div className="px-6 pb-6 pt-0 text-slate-600 text-sm leading-relaxed border-t border-slate-200/50 pt-4">
-                        {faq.a}
-                      </div>
+                      <p className="pt-3 pb-2 text-gray-600 text-base leading-relaxed">
+                        {item.a}
+                      </p>
                     </motion.div>
                   )}
                 </AnimatePresence>
