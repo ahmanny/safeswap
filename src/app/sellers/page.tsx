@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { Navbar } from "@/components/shared/navbar";
 import { Footer } from "@/components/shared/footer";
 import { SellerHero } from "@/components/sellers/hero";
@@ -7,6 +8,19 @@ import { SellerPersonas } from "@/components/sellers/personas";
 import { SellerPricing } from "@/components/sellers/pricing";
 import { SellerFAQ } from "@/components/sellers/faq";
 import { SellerSurveyForm } from "@/components/sellers/survey-form";
+
+export const metadata: Metadata = {
+  title: "SafeSwap for Sellers — Get Paid Every Time",
+  description:
+    "SafeSwap guarantees your payment before you ship. Sell to any buyer with confidence.",
+  openGraph: {
+    title: "SafeSwap — Get Paid Every Time",
+    description:
+      "SafeSwap guarantees your payment before you ship. Sell to any buyer with confidence.",
+    url: "https://safeswap-sellers.vercel.app",
+    type: "website",
+  },
+};
 
 export default function SellerLandingPage() {
   return (

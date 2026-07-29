@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { AnimateOnScroll } from "@/components/shared/animate-on-scroll";
 
 export function SellerPersonas() {
   const personas = [
@@ -47,24 +47,19 @@ export function SellerPersonas() {
         {/* Persona Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {personas.map((persona, index) => (
-            <motion.div
-              key={persona.title}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: index * 0.1 }}
-              className="bg-white rounded-2xl p-6 shadow-xs hover:shadow-md hover:scale-[1.02] transition-all duration-200 border border-gray-100 flex flex-col justify-between"
-            >
-              <div>
-                <div className="text-3xl mb-4">{persona.emoji}</div>
-                <h3 className="text-lg font-bold text-[#0A2540] mb-2">
-                  {persona.title}
-                </h3>
-                <p className="text-gray-500 text-sm leading-relaxed">
-                  {persona.description}
-                </p>
+            <AnimateOnScroll key={persona.title} delay={index * 0.1}>
+              <div className="bg-white rounded-2xl p-6 shadow-xs hover:shadow-md hover:scale-[1.02] transition-all duration-200 border border-gray-100 flex flex-col justify-between h-full">
+                <div>
+                  <div className="text-3xl mb-4">{persona.emoji}</div>
+                  <h3 className="text-lg font-bold text-[#0A2540] mb-2">
+                    {persona.title}
+                  </h3>
+                  <p className="text-gray-500 text-sm leading-relaxed">
+                    {persona.description}
+                  </p>
+                </div>
               </div>
-            </motion.div>
+            </AnimateOnScroll>
           ))}
         </div>
 

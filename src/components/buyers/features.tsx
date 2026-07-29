@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { AnimateOnScroll } from "@/components/shared/animate-on-scroll";
 
 export function BuyerFeatures() {
   const features = [
@@ -56,32 +56,27 @@ export function BuyerFeatures() {
           </p>
         </div>
 
-        {/* 3x2 Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+        {/* 1 col mobile, 2 col tablet, 3 col desktop */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
           {features.map((feat, index) => (
-            <motion.div
-              key={feat.title}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: index * 0.08 }}
-              className="bg-white/5 border border-white/10 rounded-2xl p-6 md:p-8 hover:bg-white/10 hover:border-[#00C896]/30 transition-all duration-200 group"
-            >
-              {/* Icon in bg-[#00C896]/20 circle text-[#00C896] */}
-              <div className="w-12 h-12 rounded-full bg-[#00C896]/20 text-[#00C896] flex items-center justify-center text-xl mb-5 group-hover:scale-110 transition-transform">
-                {feat.emoji}
+            <AnimateOnScroll key={feat.title} delay={index * 0.08}>
+              <div className="bg-white/5 border border-white/10 rounded-2xl p-6 md:p-8 hover:bg-white/10 hover:border-[#00C896]/30 transition-all duration-200 group h-full">
+                {/* Icon in bg-[#00C896]/20 circle text-[#00C896] */}
+                <div className="w-12 h-12 rounded-full bg-[#00C896]/20 text-[#00C896] flex items-center justify-center text-xl mb-5 group-hover:scale-110 transition-transform">
+                  {feat.emoji}
+                </div>
+
+                {/* Title */}
+                <h3 className="text-xl font-bold text-white mb-3">
+                  {feat.title}
+                </h3>
+
+                {/* Description */}
+                <p className="text-white/70 text-sm leading-relaxed font-normal">
+                  {feat.description}
+                </p>
               </div>
-
-              {/* Title */}
-              <h3 className="text-xl font-bold text-white mb-3">
-                {feat.title}
-              </h3>
-
-              {/* Description */}
-              <p className="text-white/70 text-sm leading-relaxed font-normal">
-                {feat.description}
-              </p>
-            </motion.div>
+            </AnimateOnScroll>
           ))}
         </div>
 

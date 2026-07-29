@@ -1,47 +1,64 @@
 import { NextResponse } from "next/server";
-import fs from "fs/promises";
-import path from "path";
+import { writeFileSync, readFileSync, existsSync } from "fs";
+import { join } from "path";
+import Mailjet from "node-mailjet";
 
-export async function POST(req: Request) {
+export async function POST(request: Request) {
   try {
-    const body = await req.json();
+    const data = await request.json();
 
-    // Directory path to store submissions locally
-    const dataDir = path.join(process.cwd(), "data");
-    await fs.mkdir(dataDir, { recursive: true });
-
-    const filePath = path.join(dataDir, "seller_surveys.json");
-
-    let existingData: any[] = [];
-    try {
-      const fileContent = await fs.readFile(filePath, "utf-8");
-      existingData = JSON.parse(fileContent);
-    } catch {
-      // File doesn't exist yet or is empty
-      existingData = [];
+    // 1. Save to local JSON file for local demo
+    const filePath = join(process.cwd(), "survey-responses-sellers.json");
+    let existing = [];
+    if (existsSync(filePath)) {
+      try {
+        existing = JSON.parse(readFileSync(filePath, "utf-8"));
+      } catch {
+        existing = [];
+      }
     }
 
-    const newEntry = {
-      id: `seller_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`,
+    const newRecord = {
+      ...data,
       submittedAt: new Date().toISOString(),
-      ...body,
     };
 
-    existingData.push(newEntry);
-    await fs.writeFile(filePath, JSON.stringify(existingData, null, 2), "utf-8");
+    existing.push(newRecord);
+    writeFileSync(filePath, JSON.stringify(existing, null, 2));
 
-    console.log("Saved Seller Survey to data/seller_surveys.json:", newEntry);
+    // 2. Email notification via Mailjet if API keys are set
+    const apiKey = process.env.MAILJET_API_KEY;
+    const secretKey = process.env.MAILJET_SECRET_KEY;
+    const recipientEmail = process.env.SURVEY_NOTIFICATION_EMAIL;
 
-    return NextResponse.json({
-      success: true,
-      message: "Survey submitted successfully!",
-      data: newEntry,
-    });
+    if (apiKey && secretKey && recipientEmail) {
+      const mailjet = new Mailjet({
+        apiKey,
+        apiSecret: secretKey,
+      });
+
+      await mailjet.post("send", { version: "v3.1" }).request({
+        Messages: [
+          {
+            From: {
+              Email: process.env.MAILJET_SENDER_EMAIL || recipientEmail,
+              Name: "SafeSwap Seller Survey",
+            },
+            To: [
+              {
+                Email: recipientEmail,
+              },
+            ],
+            Subject: "New SafeSwap Seller Survey Response",
+            HTMLPart: `<h3>New Seller Survey Response</h3><pre>${JSON.stringify(newRecord, null, 2)}</pre>`,
+          },
+        ],
+      });
+    }
+
+    return NextResponse.json({ success: true });
   } catch (error) {
-    console.error("Error saving seller survey response:", error);
-    return NextResponse.json(
-      { success: false, message: "Failed to submit survey." },
-      { status: 500 }
-    );
+    console.error("Seller survey submit error:", error);
+    return NextResponse.json({ success: false, error: "Failed to submit survey" }, { status: 500 });
   }
 }

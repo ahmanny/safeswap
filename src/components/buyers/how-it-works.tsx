@@ -1,7 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
+import { AnimateOnScroll } from "@/components/shared/animate-on-scroll";
 
 export function BuyerHowItWorks() {
   const steps = [
@@ -44,37 +44,36 @@ export function BuyerHowItWorks() {
 
         {/* 3 Step Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
+          
+          {/* Vertical connecting line for mobile */}
+          <div className="absolute left-1/2 top-4 bottom-4 w-0.5 bg-gray-200 -translate-x-1/2 md:hidden z-0" />
+
           {steps.map((step, index) => (
-            <div key={step.number} className="relative flex flex-col">
+            <div key={step.number} className="relative flex flex-col z-10">
               
-              {/* Step Card */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.15 }}
-                className="bg-[#F8FAFC] rounded-2xl p-6 md:p-8 relative overflow-hidden flex-1 border border-gray-100 shadow-xs hover:shadow-md transition-shadow"
-              >
-                {/* Large step number in background top right */}
-                <span className="text-8xl font-black text-[#00C896]/20 absolute top-4 right-4 pointer-events-none select-none leading-none">
-                  {step.number}
-                </span>
+              <AnimateOnScroll delay={index * 0.1}>
+                <div className="bg-[#F8FAFC] rounded-2xl p-6 md:p-8 relative overflow-hidden flex-1 border border-gray-100 shadow-xs hover:shadow-md transition-shadow">
+                  {/* Large step number in background top right */}
+                  <span className="text-8xl font-black text-[#00C896]/20 absolute top-4 right-4 pointer-events-none select-none leading-none">
+                    {step.number}
+                  </span>
 
-                {/* Icon Circle */}
-                <div className="bg-[#0A2540]/10 w-14 h-14 rounded-full flex items-center justify-center text-2xl mb-6 relative z-10">
-                  {step.emoji}
+                  {/* Icon Circle */}
+                  <div className="bg-[#0A2540]/10 w-14 h-14 rounded-full flex items-center justify-center text-2xl mb-6 relative z-10">
+                    {step.emoji}
+                  </div>
+
+                  {/* Title */}
+                  <h3 className="font-bold text-[#0A2540] text-xl mb-3 relative z-10">
+                    {step.title}
+                  </h3>
+
+                  {/* Description */}
+                  <p className="text-gray-500 text-sm leading-relaxed relative z-10">
+                    {step.description}
+                  </p>
                 </div>
-
-                {/* Title */}
-                <h3 className="font-bold text-[#0A2540] text-xl mb-3 relative z-10">
-                  {step.title}
-                </h3>
-
-                {/* Description */}
-                <p className="text-gray-500 text-sm leading-relaxed relative z-10">
-                  {step.description}
-                </p>
-              </motion.div>
+              </AnimateOnScroll>
 
               {/* Desktop Arrow Connector between cards */}
               {index < steps.length - 1 && (
