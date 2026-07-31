@@ -38,7 +38,6 @@ export function BuyerSurveyForm() {
 
   const handleNext = () => {
     setErrorMsg("");
-    // Basic validation per step if needed
     if (currentStep === 1 && !q1Frequency) {
       setErrorMsg("Please select an option to continue.");
       return;
@@ -128,21 +127,21 @@ export function BuyerSurveyForm() {
   const progressPercentage = (currentStep / totalSteps) * 100;
 
   return (
-    <section id="survey" className="bg-[#F8FAFC] py-20 md:py-28">
+    <section id="survey" className="bg-[#F8FAFC] dark:bg-[#070F1A] py-20 md:py-28">
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Header */}
         <div className="text-center space-y-3 mb-10">
-          <h2 className="text-3xl md:text-4xl font-extrabold text-[#0A2540] tracking-tight">
+          <h2 className="text-3xl md:text-4xl font-extrabold text-[#0A2540] dark:text-white tracking-tight">
             Help Us Build SafeSwap for You
           </h2>
-          <p className="text-gray-500 text-lg">
+          <p className="text-gray-500 dark:text-gray-400 text-lg">
             2-minute survey — your answers shape what we build. No spam, ever.
           </p>
         </div>
 
         {/* Card Container */}
-        <div className="bg-white rounded-3xl p-6 sm:p-10 shadow-xl border border-gray-100 relative overflow-hidden">
+        <div className="bg-white dark:bg-[#0D1B2E] rounded-3xl p-6 sm:p-10 shadow-xl dark:shadow-none border border-gray-100 dark:border-white/10 relative overflow-hidden">
           
           {isSubmitted ? (
             /* SUCCESS STATE */
@@ -156,8 +155,8 @@ export function BuyerSurveyForm() {
               </div>
               
               <div className="space-y-2">
-                <h3 className="text-3xl font-black text-[#0A2540]">Thank you! 🎉</h3>
-                <p className="text-gray-600 max-w-md mx-auto text-base">
+                <h3 className="text-3xl font-black text-[#0A2540] dark:text-white">Thank you! 🎉</h3>
+                <p className="text-gray-600 dark:text-gray-300 max-w-md mx-auto text-base">
                   You're on the early access list. We'll reach out when SafeSwap launches.
                 </p>
               </div>
@@ -177,11 +176,11 @@ export function BuyerSurveyForm() {
             <div>
               {/* Progress Bar */}
               <div className="mb-8">
-                <div className="flex justify-between items-center text-xs font-semibold text-gray-400 mb-2">
+                <div className="flex justify-between items-center text-xs font-semibold text-gray-400 dark:text-gray-400 mb-2">
                   <span>Question {currentStep} of {totalSteps}</span>
                   <span>{Math.round(progressPercentage)}% Completed</span>
                 </div>
-                <div className="w-full h-2.5 bg-gray-100 rounded-full overflow-hidden">
+                <div className="w-full h-2.5 bg-gray-100 dark:bg-white/10 rounded-full overflow-hidden">
                   <motion.div
                     className="h-full bg-[#00C896]"
                     animate={{ width: `${progressPercentage}%` }}
@@ -191,7 +190,7 @@ export function BuyerSurveyForm() {
               </div>
 
               {errorMsg && (
-                <div className="mb-6 p-3 bg-red-50 text-red-600 border border-red-200 rounded-xl text-sm font-medium">
+                <div className="mb-6 p-3 bg-red-50 dark:bg-red-950/30 text-red-600 dark:text-red-400 border border-red-200 dark:border-red-800 rounded-xl text-sm font-medium">
                   {errorMsg}
                 </div>
               )}
@@ -210,7 +209,7 @@ export function BuyerSurveyForm() {
                       transition={{ duration: 0.25 }}
                       className="space-y-6"
                     >
-                      <h3 className="text-xl font-bold text-[#0A2540]">
+                      <h3 className="text-xl font-bold text-[#0A2540] dark:text-white">
                         How often do you shop from online vendors (Instagram, WhatsApp, Jiji, etc.)?
                       </h3>
                       <div className="space-y-3">
@@ -225,8 +224,8 @@ export function BuyerSurveyForm() {
                             onClick={() => setQ1Frequency(option)}
                             className={`flex items-center gap-3 p-4 rounded-2xl border text-sm font-semibold transition-all cursor-pointer ${
                               q1Frequency === option
-                                ? "border-[#00C896] bg-[#00C896]/10 text-[#0A2540]"
-                                : "border-gray-200 hover:border-gray-300 text-gray-700 bg-white"
+                                ? "border-[#00C896] bg-[#00C896]/10 text-[#0A2540] dark:text-white"
+                                : "border-gray-200 dark:border-white/10 hover:border-gray-300 dark:hover:border-white/20 text-gray-700 dark:text-gray-200 bg-white dark:bg-[#132036]"
                             }`}
                           >
                             <input
@@ -253,7 +252,7 @@ export function BuyerSurveyForm() {
                       transition={{ duration: 0.25 }}
                       className="space-y-6"
                     >
-                      <h3 className="text-xl font-bold text-[#0A2540]">
+                      <h3 className="text-xl font-bold text-[#0A2540] dark:text-white">
                         Have you ever been scammed or received a wrong item when buying online?
                       </h3>
                       <div className="space-y-3">
@@ -268,8 +267,8 @@ export function BuyerSurveyForm() {
                             onClick={() => setQ2Scammed(option)}
                             className={`flex items-center gap-3 p-4 rounded-2xl border text-sm font-semibold transition-all cursor-pointer ${
                               q2Scammed === option
-                                ? "border-[#00C896] bg-[#00C896]/10 text-[#0A2540]"
-                                : "border-gray-200 hover:border-gray-300 text-gray-700 bg-white"
+                                ? "border-[#00C896] bg-[#00C896]/10 text-[#0A2540] dark:text-white"
+                                : "border-gray-200 dark:border-white/10 hover:border-gray-300 dark:hover:border-white/20 text-gray-700 dark:text-gray-200 bg-white dark:bg-[#132036]"
                             }`}
                           >
                             <input
@@ -296,7 +295,7 @@ export function BuyerSurveyForm() {
                       transition={{ duration: 0.25 }}
                       className="space-y-6"
                     >
-                      <h3 className="text-xl font-bold text-[#0A2540]">
+                      <h3 className="text-xl font-bold text-[#0A2540] dark:text-white">
                         How much do you typically spend per online transaction?
                       </h3>
                       <div className="space-y-3">
@@ -311,8 +310,8 @@ export function BuyerSurveyForm() {
                             onClick={() => setQ3Spend(option)}
                             className={`flex items-center gap-3 p-4 rounded-2xl border text-sm font-semibold transition-all cursor-pointer ${
                               q3Spend === option
-                                ? "border-[#00C896] bg-[#00C896]/10 text-[#0A2540]"
-                                : "border-gray-200 hover:border-gray-300 text-gray-700 bg-white"
+                                ? "border-[#00C896] bg-[#00C896]/10 text-[#0A2540] dark:text-white"
+                                : "border-gray-200 dark:border-white/10 hover:border-gray-300 dark:hover:border-white/20 text-gray-700 dark:text-gray-200 bg-white dark:bg-[#132036]"
                             }`}
                           >
                             <input
@@ -340,10 +339,10 @@ export function BuyerSurveyForm() {
                       className="space-y-6"
                     >
                       <div>
-                        <h3 className="text-xl font-bold text-[#0A2540]">
+                        <h3 className="text-xl font-bold text-[#0A2540] dark:text-white">
                           What is your biggest concern when buying from an unknown online seller?
                         </h3>
-                        <p className="text-xs text-gray-400 mt-1 font-medium">Select all that apply</p>
+                        <p className="text-xs text-gray-400 dark:text-gray-400 mt-1 font-medium">Select all that apply</p>
                       </div>
                       <div className="space-y-3">
                         {[
@@ -360,8 +359,8 @@ export function BuyerSurveyForm() {
                               onClick={() => handleCheckboxToggle(q4Concerns, setQ4Concerns, option)}
                               className={`flex items-center gap-3 p-4 rounded-2xl border text-sm font-semibold transition-all cursor-pointer ${
                                 isChecked
-                                  ? "border-[#00C896] bg-[#00C896]/10 text-[#0A2540]"
-                                  : "border-gray-200 hover:border-gray-300 text-gray-700 bg-white"
+                                  ? "border-[#00C896] bg-[#00C896]/10 text-[#0A2540] dark:text-white"
+                                  : "border-gray-200 dark:border-white/10 hover:border-gray-300 dark:hover:border-white/20 text-gray-700 dark:text-gray-200 bg-white dark:bg-[#132036]"
                               }`}
                             >
                               <input
@@ -388,7 +387,7 @@ export function BuyerSurveyForm() {
                       transition={{ duration: 0.25 }}
                       className="space-y-6"
                     >
-                      <h3 className="text-xl font-bold text-[#0A2540]">
+                      <h3 className="text-xl font-bold text-[#0A2540] dark:text-white">
                         Would you use an escrow service that holds your money until you confirm delivery?
                       </h3>
                       <div className="space-y-3">
@@ -403,8 +402,8 @@ export function BuyerSurveyForm() {
                             onClick={() => setQ5EscrowUse(option)}
                             className={`flex items-center gap-3 p-4 rounded-2xl border text-sm font-semibold transition-all cursor-pointer ${
                               q5EscrowUse === option
-                                ? "border-[#00C896] bg-[#00C896]/10 text-[#0A2540]"
-                                : "border-gray-200 hover:border-gray-300 text-gray-700 bg-white"
+                                ? "border-[#00C896] bg-[#00C896]/10 text-[#0A2540] dark:text-white"
+                                : "border-gray-200 dark:border-white/10 hover:border-gray-300 dark:hover:border-white/20 text-gray-700 dark:text-gray-200 bg-white dark:bg-[#132036]"
                             }`}
                           >
                             <input
@@ -432,10 +431,10 @@ export function BuyerSurveyForm() {
                       className="space-y-6"
                     >
                       <div>
-                        <h3 className="text-xl font-bold text-[#0A2540]">
+                        <h3 className="text-xl font-bold text-[#0A2540] dark:text-white">
                           What features matter most to you?
                         </h3>
-                        <p className="text-xs text-gray-400 mt-1 font-medium">Select all that apply</p>
+                        <p className="text-xs text-gray-400 dark:text-gray-400 mt-1 font-medium">Select all that apply</p>
                       </div>
                       <div className="space-y-3">
                         {[
@@ -453,8 +452,8 @@ export function BuyerSurveyForm() {
                               onClick={() => handleCheckboxToggle(q6Features, setQ6Features, option)}
                               className={`flex items-center gap-3 p-4 rounded-2xl border text-sm font-semibold transition-all cursor-pointer ${
                                 isChecked
-                                  ? "border-[#00C896] bg-[#00C896]/10 text-[#0A2540]"
-                                  : "border-gray-200 hover:border-gray-300 text-gray-700 bg-white"
+                                  ? "border-[#00C896] bg-[#00C896]/10 text-[#0A2540] dark:text-white"
+                                  : "border-gray-200 dark:border-white/10 hover:border-gray-300 dark:hover:border-white/20 text-gray-700 dark:text-gray-200 bg-white dark:bg-[#132036]"
                               }`}
                             >
                               <input
@@ -482,51 +481,51 @@ export function BuyerSurveyForm() {
                       className="space-y-6"
                     >
                       <div>
-                        <h3 className="text-xl font-bold text-[#0A2540]">
+                        <h3 className="text-xl font-bold text-[#0A2540] dark:text-white">
                           Drop your email to get early access when we launch:
                         </h3>
-                        <p className="text-xs text-gray-400 mt-1 font-medium">
+                        <p className="text-xs text-gray-400 dark:text-gray-400 mt-1 font-medium">
                           Your details will only be used to notify you about SafeSwap launch. We hate spam.
                         </p>
                       </div>
 
                       <div className="space-y-4">
                         <div>
-                          <label className="block text-sm font-semibold text-[#0A2540] mb-1">
-                            Email Address <span className="text-gray-400 font-normal">(Optional)</span>
+                          <label className="block text-sm font-semibold text-[#0A2540] dark:text-white mb-1">
+                            Email Address <span className="text-gray-400 dark:text-gray-400 font-normal">(Optional)</span>
                           </label>
                           <input
                             type="email"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             placeholder="name@example.com"
-                            className="w-full rounded-2xl border border-gray-200 p-4 text-sm focus:border-[#00C896] focus:outline-none bg-[#F8FAFC]"
+                            className="w-full rounded-2xl border border-gray-200 dark:border-white/10 p-4 text-sm focus:border-[#00C896] focus:outline-none bg-[#F8FAFC] dark:bg-[#132036] text-gray-900 dark:text-white placeholder:text-gray-400 dark:placeholder:text-gray-500"
                           />
                         </div>
 
                         <div>
-                          <label className="block text-sm font-semibold text-[#0A2540] mb-1">
-                            Phone Number <span className="text-gray-400 font-normal">(Optional)</span>
+                          <label className="block text-sm font-semibold text-[#0A2540] dark:text-white mb-1">
+                            Phone Number <span className="text-gray-400 dark:text-gray-400 font-normal">(Optional)</span>
                           </label>
                           <input
                             type="tel"
                             value={phone}
                             onChange={(e) => setPhone(e.target.value)}
                             placeholder="08012345678"
-                            className="w-full rounded-2xl border border-gray-200 p-4 text-sm focus:border-[#00C896] focus:outline-none bg-[#F8FAFC]"
+                            className="w-full rounded-2xl border border-gray-200 dark:border-white/10 p-4 text-sm focus:border-[#00C896] focus:outline-none bg-[#F8FAFC] dark:bg-[#132036] text-gray-900 dark:text-white placeholder:text-gray-400 dark:placeholder:text-gray-500"
                           />
                         </div>
 
                         <div>
-                          <label className="block text-sm font-semibold text-[#0A2540] mb-1">
-                            Name <span className="text-gray-400 font-normal">(Optional)</span>
+                          <label className="block text-sm font-semibold text-[#0A2540] dark:text-white mb-1">
+                            Name <span className="text-gray-400 dark:text-gray-400 font-normal">(Optional)</span>
                           </label>
                           <input
                             type="text"
                             value={name}
                             onChange={(e) => setName(e.target.value)}
                             placeholder="Amaka Okonkwo"
-                            className="w-full rounded-2xl border border-gray-200 p-4 text-sm focus:border-[#00C896] focus:outline-none bg-[#F8FAFC]"
+                            className="w-full rounded-2xl border border-gray-200 dark:border-white/10 p-4 text-sm focus:border-[#00C896] focus:outline-none bg-[#F8FAFC] dark:bg-[#132036] text-gray-900 dark:text-white placeholder:text-gray-400 dark:placeholder:text-gray-500"
                           />
                         </div>
                       </div>
@@ -536,12 +535,12 @@ export function BuyerSurveyForm() {
                 </AnimatePresence>
 
                 {/* FORM NAVIGATION BUTTONS */}
-                <div className="mt-10 flex items-center justify-between border-t border-gray-100 pt-6">
+                <div className="mt-10 flex items-center justify-between border-t border-gray-100 dark:border-white/10 pt-6">
                   {currentStep > 1 ? (
                     <button
                       type="button"
                       onClick={handleBack}
-                      className="inline-flex items-center gap-1 text-sm font-semibold text-gray-500 hover:text-[#0A2540] transition-colors cursor-pointer"
+                      className="inline-flex items-center gap-1 text-sm font-semibold text-gray-500 dark:text-gray-400 hover:text-[#0A2540] dark:hover:text-white transition-colors cursor-pointer"
                     >
                       <ArrowLeft className="h-4 w-4" />
                       <span>Back</span>
@@ -552,7 +551,7 @@ export function BuyerSurveyForm() {
                     <button
                       type="button"
                       onClick={handleNext}
-                      className="inline-flex items-center gap-2 bg-[#0A2540] text-white rounded-full px-7 py-3 text-sm font-semibold hover:bg-[#071D33] transition-all cursor-pointer"
+                      className="inline-flex items-center gap-2 bg-[#0A2540] dark:bg-[#00C896] text-white dark:text-[#0A2540] rounded-full px-7 py-3 text-sm font-semibold hover:bg-[#071D33] dark:hover:bg-[#00B085] transition-all cursor-pointer"
                     >
                       <span>Next</span>
                       <ArrowRight className="h-4 w-4" />

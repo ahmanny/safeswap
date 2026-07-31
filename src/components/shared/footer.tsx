@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ShieldCheck, Heart } from "lucide-react";
+import { ShieldCheck } from "lucide-react";
 
 export function Footer() {
   const scrollToSection = (id: string) => {
@@ -49,7 +49,7 @@ export function Footer() {
                 <li>
                   <button
                     onClick={() => scrollToSection("how-it-works")}
-                    className="hover:text-white transition-colors"
+                    className="hover:text-white transition-colors cursor-pointer"
                   >
                     How It Works
                   </button>
@@ -57,7 +57,7 @@ export function Footer() {
                 <li>
                   <button
                     onClick={() => scrollToSection("features")}
-                    className="hover:text-white transition-colors"
+                    className="hover:text-white transition-colors cursor-pointer"
                   >
                     Buyer Protection
                   </button>
@@ -65,15 +65,15 @@ export function Footer() {
                 <li>
                   <button
                     onClick={() => scrollToSection("faq")}
-                    className="hover:text-white transition-colors"
+                    className="hover:text-white transition-colors cursor-pointer"
                   >
                     Buyer FAQ
                   </button>
                 </li>
                 <li>
                   <button
-                    onClick={() => scrollToSection("survey-section")}
-                    className="hover:text-[#00C896] transition-colors"
+                    onClick={() => scrollToSection("survey")}
+                    className="hover:text-[#00C896] transition-colors cursor-pointer"
                   >
                     Join Waitlist
                   </button>
@@ -113,8 +113,8 @@ export function Footer() {
                 </li>
                 <li>
                   <button
-                    onClick={() => scrollToSection("survey-section")}
-                    className="hover:text-[#00C896] transition-colors"
+                    onClick={() => scrollToSection("survey")}
+                    className="hover:text-[#00C896] transition-colors cursor-pointer"
                   >
                     Merchant Early Access
                   </button>
@@ -125,14 +125,8 @@ export function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="mt-12 border-t border-slate-800/80 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+        <div className="mt-12 border-t border-slate-800/80 pt-8 flex justify-end text-xs text-slate-500">
           <p>© {new Date().getFullYear()} SafeSwap. All rights reserved.</p>
-          <div className="flex items-center gap-1.5 font-medium text-slate-400 bg-slate-900/60 px-3 py-1.5 rounded-full border border-slate-800">
-            <span>Made with</span>
-            <Heart className="h-3.5 w-3.5 text-red-500 fill-red-500" />
-            <span>for Nigerian buyers and sellers</span>
-            <span className="text-base">🇳🇬</span>
-          </div>
         </div>
       </div>
     </footer>

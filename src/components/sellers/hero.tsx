@@ -13,10 +13,10 @@ export function SellerHero() {
   };
 
   return (
-    <section className="relative min-h-screen flex items-center bg-[#F8FAFC] py-12 md:py-20 overflow-hidden">
+    <section className="relative min-h-screen flex items-center bg-[#F8FAFC] dark:bg-[#070F1A] py-12 md:py-20 overflow-hidden">
       {/* Subtle Dot Grid Background */}
       <div 
-        className="absolute inset-0 pointer-events-none opacity-40"
+        className="absolute inset-0 pointer-events-none opacity-40 dark:opacity-20"
         style={{
           backgroundImage: `radial-gradient(#0A2540 1px, transparent 1px)`,
           backgroundSize: '24px 24px',
@@ -37,14 +37,14 @@ export function SellerHero() {
             </div>
 
             {/* Headline */}
-            <h1 className="text-5xl md:text-6xl font-black text-[#0A2540] leading-tight tracking-tight">
+            <h1 className="text-5xl md:text-6xl font-black text-[#0A2540] dark:text-white leading-tight tracking-tight">
               Sell to Anyone. <br />
               <span className="text-[#00C896]">Get Paid</span> Without <br />
               the Stress.
             </h1>
 
             {/* Subheadline */}
-            <p className="text-lg text-gray-500 max-w-lg leading-relaxed font-normal">
+            <p className="text-lg text-gray-500 dark:text-gray-400 max-w-lg leading-relaxed font-normal">
               SafeSwap tells buyers their money is secured before you ship. You get paid automatically the moment they confirm delivery. Zero risk. Zero chasing.
             </p>
 
@@ -52,21 +52,21 @@ export function SellerHero() {
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 w-full sm:w-auto pt-2">
               <button
                 onClick={scrollToSurvey}
-                className="bg-[#0A2540] text-white rounded-full px-8 py-4 text-base font-semibold hover:bg-[#071D33] transition-all shadow-lg shadow-[#0A2540]/20 text-center active:scale-95 cursor-pointer"
+                className="bg-[#0A2540] dark:bg-[#00C896] text-white dark:text-[#0A2540] rounded-full px-8 py-4 text-base font-semibold hover:bg-[#071D33] dark:hover:bg-[#00B085] transition-all shadow-lg shadow-[#0A2540]/20 text-center active:scale-95 cursor-pointer"
               >
                 Take the Seller Survey
               </button>
 
               <button
                 onClick={scrollToHowItWorks}
-                className="text-[#0A2540] font-semibold underline decoration-dotted underline-offset-4 hover:opacity-80 transition-opacity text-center py-2 cursor-pointer"
+                className="text-[#0A2540] dark:text-white font-semibold underline decoration-dotted underline-offset-4 hover:opacity-80 transition-opacity text-center py-2 cursor-pointer"
               >
                 See How It Works →
               </button>
             </div>
 
             {/* Trust Badges */}
-            <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-6 pt-4 text-xs text-gray-500 font-medium">
+            <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-6 pt-4 text-xs text-gray-500 dark:text-gray-400 font-medium">
               <div className="flex items-center gap-1.5">
                 <Check className="h-4 w-4 text-[#00C896]" />
                 <span>Get paid on delivery confirmation</span>
@@ -90,29 +90,29 @@ export function SellerHero() {
             <motion.div
               animate={{ y: [0, -10, 0] }}
               transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}
-              className="bg-white rounded-3xl p-6 md:p-8 shadow-xl border border-gray-100 w-full max-w-md relative z-10"
+              className="bg-white dark:bg-[#0D1B2E] rounded-3xl p-6 md:p-8 shadow-xl dark:shadow-none border border-gray-100 dark:border-white/10 w-full max-w-md relative z-10"
             >
-              <div className="flex items-center justify-between border-b border-gray-100 pb-4 mb-5">
-                <span className="text-sm font-bold text-[#0A2540]">Your Sales Dashboard</span>
+              <div className="flex items-center justify-between border-b border-gray-100 dark:border-white/10 pb-4 mb-5">
+                <span className="text-sm font-bold text-[#0A2540] dark:text-white">Your Sales Dashboard</span>
                 <span className="bg-[#00C896]/10 text-[#00C896] text-xs font-semibold px-2.5 py-1 rounded-full flex items-center gap-1">
                   Active Vendor
                 </span>
               </div>
 
               <div className="space-y-4">
-                <div className="bg-[#F8FAFC] rounded-2xl p-4 border border-gray-100">
-                  <span className="text-xs text-gray-400 font-medium block mb-1">Today's Earnings</span>
-                  <span className="text-3xl font-black text-[#0A2540]">₦127,500</span>
+                <div className="bg-[#F8FAFC] dark:bg-[#132036] rounded-2xl p-4 border border-gray-100 dark:border-white/10">
+                  <span className="text-xs text-gray-400 dark:text-gray-400 font-medium block mb-1">Today's Earnings</span>
+                  <span className="text-3xl font-black text-[#0A2540] dark:text-white">₦127,500</span>
                 </div>
 
                 <div className="grid grid-cols-2 gap-3 text-sm">
-                  <div className="bg-[#F8FAFC] rounded-xl p-3 border border-gray-100">
-                    <span className="text-xs text-gray-400 block">Pending release</span>
+                  <div className="bg-[#F8FAFC] dark:bg-[#132036] rounded-xl p-3 border border-gray-100 dark:border-white/10">
+                    <span className="text-xs text-gray-400 dark:text-gray-400 block">Pending release</span>
                     <span className="font-bold text-[#F59E0B]">₦43,000</span>
                   </div>
-                  <div className="bg-[#F8FAFC] rounded-xl p-3 border border-gray-100">
-                    <span className="text-xs text-gray-400 block">Completed</span>
-                    <span className="font-bold text-[#0A2540]">8 sales</span>
+                  <div className="bg-[#F8FAFC] dark:bg-[#132036] rounded-xl p-3 border border-gray-100 dark:border-white/10">
+                    <span className="text-xs text-gray-400 dark:text-gray-400 block">Completed</span>
+                    <span className="font-bold text-[#0A2540] dark:text-white">8 sales</span>
                   </div>
                 </div>
 

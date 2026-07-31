@@ -13,12 +13,12 @@ export function BuyerHero() {
   };
 
   return (
-    <section className="relative min-h-screen flex items-center bg-[#F8FAFC] py-12 md:py-20 overflow-hidden">
+    <section className="relative min-h-screen flex items-center bg-[#F8FAFC] dark:bg-[#070F1A] py-12 md:py-20 overflow-hidden">
       {/* Subtle Dot Grid Background */}
       <div 
-        className="absolute inset-0 pointer-events-none opacity-40"
+        className="absolute inset-0 pointer-events-none opacity-40 dark:opacity-20"
         style={{
-          backgroundImage: `radial-[#0A2540] 1px, transparent 1px)`,
+          backgroundImage: `radial-gradient(#0A2540 1px, transparent 1px)`,
           backgroundSize: '24px 24px',
           maskImage: 'radial-gradient(ellipse 60% 50% at 50% 50%, #000 70%, transparent 100%)'
         }}
@@ -37,7 +37,7 @@ export function BuyerHero() {
             </div>
 
             {/* Headline */}
-            <h1 className="text-5xl md:text-6xl font-black text-[#0A2540] leading-tight tracking-tight">
+            <h1 className="text-5xl md:text-6xl font-black text-[#0A2540] dark:text-white leading-tight tracking-tight">
               Buy Anything Online <br className="hidden sm:inline" />
               Without the Fear of <br />
               <span className="relative inline-block">
@@ -61,7 +61,7 @@ export function BuyerHero() {
             </h1>
 
             {/* Subheadline */}
-            <p className="text-lg text-gray-500 max-w-lg leading-relaxed font-normal">
+            <p className="text-lg text-gray-500 dark:text-gray-400 max-w-lg leading-relaxed font-normal">
               SafeSwap holds your money safely until you confirm you've received exactly what you ordered. No delivery? Get your money back.
             </p>
 
@@ -76,16 +76,16 @@ export function BuyerHero() {
 
               <button
                 onClick={scrollToHowItWorks}
-                className="text-[#0A2540] font-semibold underline decoration-dotted underline-offset-4 hover:opacity-80 transition-opacity text-center py-2 cursor-pointer"
+                className="text-[#0A2540] dark:text-white font-semibold underline decoration-dotted underline-offset-4 hover:opacity-80 transition-opacity text-center py-2 cursor-pointer"
               >
                 See How It Works →
               </button>
             </div>
 
             {/* Trust Badges Row */}
-            <div className="flex flex-wrap items-center gap-6 pt-4 text-xs text-gray-400 font-medium">
+            <div className="flex flex-wrap items-center gap-6 pt-4 text-xs text-gray-400 dark:text-gray-400 font-medium">
               <div className="flex items-center gap-1.5">
-                <Lock className="h-3.5 w-3.5 text-[#0A2540]" />
+                <Lock className="h-3.5 w-3.5 text-[#0A2540] dark:text-white" />
                 <span>Funds held securely</span>
               </div>
               <div className="flex items-center gap-1.5">
@@ -107,10 +107,10 @@ export function BuyerHero() {
             <motion.div
               animate={{ y: [0, -10, 0] }}
               transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}
-              className="bg-white rounded-3xl p-6 md:p-8 shadow-xl border border-gray-100 w-full max-w-md relative z-10"
+              className="bg-white dark:bg-[#0D1B2E] rounded-3xl p-6 md:p-8 shadow-xl dark:shadow-none border border-gray-100 dark:border-white/10 w-full max-w-md relative z-10"
             >
-              <div className="flex items-center justify-between border-b border-gray-100 pb-4 mb-5">
-                <span className="text-sm font-bold text-gray-400 uppercase tracking-wider">Payment Protected</span>
+              <div className="flex items-center justify-between border-b border-gray-100 dark:border-white/10 pb-4 mb-5">
+                <span className="text-sm font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider">Payment Protected</span>
                 <span className="bg-[#00C896]/10 text-[#00C896] border border-[#00C896]/20 text-xs font-semibold px-3 py-1 rounded-full flex items-center gap-1">
                   <Lock className="h-3 w-3" /> In Escrow 🔒
                 </span>
@@ -118,21 +118,21 @@ export function BuyerHero() {
 
               <div className="space-y-4">
                 <div className="flex justify-between items-center text-sm">
-                  <span className="text-gray-400">Buyer</span>
-                  <span className="font-bold text-[#0A2540]">Amaka O.</span>
+                  <span className="text-gray-400 dark:text-gray-400">Buyer</span>
+                  <span className="font-bold text-[#0A2540] dark:text-white">Amaka O.</span>
                 </div>
                 <div className="flex justify-between items-center text-sm">
-                  <span className="text-gray-400">Seller</span>
-                  <span className="font-bold text-[#0A2540]">Lagos Gadgets</span>
+                  <span className="text-gray-400 dark:text-gray-400">Seller</span>
+                  <span className="font-bold text-[#0A2540] dark:text-white">Lagos Gadgets</span>
                 </div>
                 <div className="flex justify-between items-center text-sm">
-                  <span className="text-gray-400">Item</span>
-                  <span className="font-bold text-[#0A2540]">iPhone 15 Pro Max</span>
+                  <span className="text-gray-400 dark:text-gray-400">Item</span>
+                  <span className="font-bold text-[#0A2540] dark:text-white">iPhone 15 Pro Max</span>
                 </div>
 
-                <div className="bg-[#F8FAFC] rounded-2xl p-4 mt-2 flex justify-between items-center">
-                  <span className="text-xs text-gray-500 font-medium">Total Amount</span>
-                  <span className="text-xl font-extrabold text-[#0A2540]">₦850,000</span>
+                <div className="bg-[#F8FAFC] dark:bg-[#132036] rounded-2xl p-4 mt-2 flex justify-between items-center">
+                  <span className="text-xs text-gray-500 dark:text-gray-400 font-medium">Total Amount</span>
+                  <span className="text-xl font-extrabold text-[#0A2540] dark:text-white">₦850,000</span>
                 </div>
               </div>
             </motion.div>
